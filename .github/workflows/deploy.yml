@@ -21,6 +21,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install aspell ⏳
+        run: sudo apt-get install aspell
+
       - name: Run spellcheck 📊
         run: ./ci/spellcheck.sh list
 
