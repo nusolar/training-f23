@@ -1,0 +1,6 @@
+[book]
+authors = ["Matthew Sinclair"]
+language = "en"
+multilingual = false
+src = "src"
+title = "NU Solar Software Team Training - Fall 2023"
