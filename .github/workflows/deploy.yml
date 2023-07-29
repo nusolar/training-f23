@@ -1,0 +1,39 @@
+name: Build and Deploy to Github Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Run spellcheck 📊
+        run: ./ci/spellcheck.sh list
+
+      - name: Setup mdBook 📕
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.32'
+
+      - run: mdbook build
+
+      - name: Deploy to GH Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
+
