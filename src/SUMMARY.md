@@ -39,4 +39,7 @@
 # Hardware Reference
 - [CANUSB COM FD](hardware/canusb-com-fd.md)
 - [Raspberry Pi 4](hardware/raspberry-pi.md)
+- [PiCAN 2](hardware/pican-2.md)
+- [Tritium WaveSculptor 22 Motor Controller](hardware/wavesculptor22.md)
+- [Elmar Solar MPPT](hardware/mppt.md)
 - [Digi XBee® SX 1-Watt 900 MHz RF](hardware/xbee.md)

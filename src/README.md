@@ -3,6 +3,7 @@
 Welcome to the Northwestern Solar Car Software team!
 
 ![NU Solar](images/NU-SOLAR.jpeg)
+<div style="text-align: center"><i>SC7s at the 2023 Formula Sun Grand Prix</i></div>
 
 This handbook contains training tutorials and documentation for Fall 2023.
 Training will roughly follow the chapters in this book as they appear, but
