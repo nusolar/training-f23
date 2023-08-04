@@ -3,6 +3,8 @@ canusb
 CANUSB
 Digi
 jpeg
+MPPT
+MPPTs
 README
 Sorensen
 xbee

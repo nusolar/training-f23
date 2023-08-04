@@ -1,6 +1,6 @@
 # Introduction
 
-Welcome to the Northwestern Solar Car software team!
+Welcome to the Northwestern Solar Car Software team!
 
 ![NU Solar](images/NU-SOLAR.jpeg)
 
@@ -41,7 +41,7 @@ working with package managers, and more.
 We'll end the training with an introduction to the current telemetry system
 and the projects we have planned for this year.
 
-Training is expected to last roughly month, but may be shorter or longer
+Training is expected to last roughly a month, but may be shorter or longer
 depending on member feedback. Simultaneous to training sessions following
 this handbook, more "hands-on" meetings will be taking place to introduce
 new members to the telemetry system in action.
