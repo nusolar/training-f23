@@ -168,7 +168,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Welcome to the Northwestern Solar Car software team!</p>
+<p>Welcome to the Northwestern Solar Car Software team!</p>
 <p><img src="images/NU-SOLAR.jpeg" alt="NU Solar" /></p>
 <p>This handbook contains training tutorials and documentation for Fall 2023.
 Training will roughly follow the chapters in this book as they appear, but
@@ -202,7 +202,7 @@ Git to collaborate with others, organizing code with virtual environments,
 working with package managers, and more. </p>
 <p>We'll end the training with an introduction to the current telemetry system
 and the projects we have planned for this year.</p>
-<p>Training is expected to last roughly month, but may be shorter or longer
+<p>Training is expected to last roughly a month, but may be shorter or longer
 depending on member feedback. Simultaneous to training sessions following
 this handbook, more &quot;hands-on&quot; meetings will be taking place to introduce
 new members to the telemetry system in action.</p>
@@ -219,6 +219,24 @@ available at
 Submit a pull request with your proposed changes (see the
 <a href="tools/git.html">Git and GitHub</a> chapter to learn how).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="our-purpose"><a class="header" href="#our-purpose">Our purpose</a></h1>
+<p>The Software team's main responsibility is to monitor telemetry data coming
+from the solar car, including, for example, the state of charge of cells in the
+battery box, the amount current being delivered to the MPPTs, the temperature
+in the motor controllers, and much more. While Mechanical and Electrical are the
+teams that actively build the car's structure and its circuitry, Software's
+role is nevertheless fundamental. By tracking telemetry data, we allow the
+team to:</p>
+<ul>
+<li>Diagnose issues with the electrical components on the car during development.</li>
+<li>Monitor relevant information during a race both from a remote dashboard and an onboard
+display.</li>
+<li>Predict failure and investigate their causes when they occur.</li>
+<li>Persist telemetry signals in a database for later analysis.</li>
+<li>Make more informed decisions about race strategy and future design cycles.</li>
+</ul>
+<br/>
+<p><img src="images/dashboard.png" alt="Dashboard" /></p>
+<div style="text-align: center"><i>A basic telemetry dashboard</i></div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="current-in-a-wire"><a class="header" href="#current-in-a-wire">Current in a wire</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-controller-area-network"><a class="header" href="#the-controller-area-network">The Controller Area Network</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-stream-of-bytes"><a class="header" href="#a-stream-of-bytes">A stream of bytes</a></h1>
