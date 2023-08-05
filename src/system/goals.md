@@ -128,12 +128,38 @@ involve working with a new piece of hardware to improve our system and will
 likely involve working with cloud environments.
 
 ### *Onboard GPS module with dashboard integration* (🌱, 👥 2-5, 📅 6-12 weeks)
+It would be nice to visualize the car's progress along the track on our dashboard.
+This project will oversee the addition of a new GPS module to the car, which will
+provide positioning data that must be relayed to the base-station and displayed
+visually.
 
 ### *Onboard front-facing camera with dashboard integration* (🌱, 👥 2-5, 📅 6-12 weeks)
+A similar improvement to our dashboard would be a front-facing camera that shows
+the drivers perspective in the car. F1 broadcasts, for example, tend to show this
+perspective. While it would be a great addition to the dashboard, members working
+on this project will need to first determine whether transmitting live video data
+if feasible with our hardware.
 
 ### *Investigating the energy cost of the Python runtime* (🌱, 👥 1-2, 📅 4-12 weeks)
+Energy consumption is not a factor often considered when writing software. For our system,
+however, being a battery hog is unacceptable, as all the power the onboard system uses
+ultimately comes from the solar cells that power the car. Those interested in other
+programming languages might investigate the energy cost of running Python on the
+Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
+the Python runtime is unnacceptably inefficient for our needs (this admittedly seems
+unlikely), the team could consider migrating a small part of the system to a different
+language.
 
 ### *Running an onboard REPL to aid debugging* (🌱, 👥 1-4, 📅 3-6 weeks)
+LISP was the first programming language to feature a REPL (Read, Eval, Print Loop).
+In the late 90s, a team at NASA deployed LISP code running with a REPL on a Deep
+Space probe. When code on the probe stopped working, engineers on Earth were able
+to debug it and send it the necessary commands to fix the issue through this REPL.
+
+Python, like LISP, can run with a REPL, and, like the NASA team, we stand to
+benefit from accessing such an onboard REPL remotely. It would be a challenge
+to figure out to set this up over XBee devicess, but this project could be a
+lot of fun!
 
 ### *Exploring timeseries data with machine learning* (🌱, 👥 1-5, 📅 3-18 weeks)
 
