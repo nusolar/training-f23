@@ -162,6 +162,10 @@ to figure out to set this up over XBee devicess, but this project could be a
 lot of fun!
 
 ### *Exploring timeseries data with machine learning* (🌱, 👥 1-5, 📅 3-18 weeks)
+Analyzing CAN traffic with machine learning models could provide interesting
+opportunites for racing stategy. Through this project, members interested in ML
+could explore how, if at all, we could use such models to optimize our decisions
+at a race.
 
 ## Other projects
 
