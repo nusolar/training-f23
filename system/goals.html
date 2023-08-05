@@ -276,9 +276,34 @@ XBee cellular chip, but we have not started using it yet. This project will
 involve working with a new piece of hardware to improve our system and will
 likely involve working with cloud environments.</p>
 <h3 id="onboard-gps-module-with-dashboard-integration---2-5--6-12-weeks"><a class="header" href="#onboard-gps-module-with-dashboard-integration---2-5--6-12-weeks"><em>Onboard GPS module with dashboard integration</em> (🌱, 👥 2-5, 📅 6-12 weeks)</a></h3>
+<p>It would be nice to visualize the car's progress along the track on our dashboard.
+This project will oversee the addition of a new GPS module to the car, which will
+provide positioning data that must be relayed to the base-station and displayed
+visually.</p>
 <h3 id="onboard-front-facing-camera-with-dashboard-integration---2-5--6-12-weeks"><a class="header" href="#onboard-front-facing-camera-with-dashboard-integration---2-5--6-12-weeks"><em>Onboard front-facing camera with dashboard integration</em> (🌱, 👥 2-5, 📅 6-12 weeks)</a></h3>
+<p>A similar improvement to our dashboard would be a front-facing camera that shows
+the drivers perspective in the car. F1 broadcasts, for example, tend to show this
+perspective. While it would be a great addition to the dashboard, members working
+on this project will need to first determine whether transmitting live video data
+if feasible with our hardware.</p>
 <h3 id="investigating-the-energy-cost-of-the-python-runtime---1-2--4-12-weeks"><a class="header" href="#investigating-the-energy-cost-of-the-python-runtime---1-2--4-12-weeks"><em>Investigating the energy cost of the Python runtime</em> (🌱, 👥 1-2, 📅 4-12 weeks)</a></h3>
+<p>Energy consumption is not a factor often considered when writing software. For our system,
+however, being a battery hog is unacceptable, as all the power the onboard system uses
+ultimately comes from the solar cells that power the car. Those interested in other
+programming languages might investigate the energy cost of running Python on the
+Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
+the Python runtime is unnacceptably inefficient for our needs (this admittedly seems
+unlikely), the team could consider migrating a small part of the system to a different
+language.</p>
 <h3 id="running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><a class="header" href="#running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><em>Running an onboard REPL to aid debugging</em> (🌱, 👥 1-4, 📅 3-6 weeks)</a></h3>
+<p>LISP was the first programming language to feature a REPL (Read, Eval, Print Loop).
+In the late 90s, a team at NASA deployed LISP code running with a REPL on a Deep
+Space probe. When code on the probe stopped working, engineers on Earth were able
+to debug it and send it the necessary commands to fix the issue through this REPL.</p>
+<p>Python, like LISP, can run with a REPL, and, like the NASA team, we stand to
+benefit from accessing such an onboard REPL remotely. It would be a challenge
+to figure out to set this up over XBee devicess, but this project could be a
+lot of fun!</p>
 <h3 id="exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><a class="header" href="#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><em>Exploring timeseries data with machine learning</em> (🌱, 👥 1-5, 📅 3-18 weeks)</a></h3>
 <h2 id="other-projects"><a class="header" href="#other-projects">Other projects</a></h2>
 <p>Have an idea for a project that's not listed here? That's great! As long as it's
