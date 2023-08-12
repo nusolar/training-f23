@@ -6,7 +6,6 @@
 
 # A Telemetry Pipeline
 - [Current in a wire](pipeline/step-0/README.md)
-    - [The Controller Area Network](pipeline/step-0/controller-area-network.md)
 - [A stream of bytes](pipeline/step-1/README.md)
     - [Representing data](pipeline/step-1/representing-data.md)
     - [CAN frames](pipeline/step-1/can-frames.md)
