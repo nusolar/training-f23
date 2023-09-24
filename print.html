@@ -270,6 +270,11 @@ to make sense of it, we need a better way to represent it. In this chapter,
 you'll learn how to format data in binary and hexadecimal, how to represent
 electrical signals as streams of bytes, and how to interpret individual
 CAN frames.</p>
+<p align="center">
+    <img src="pipeline/step-1/../../images/candump.jpg" />
+    <br/>
+    <i>Traffic on a CAN bus</i>
+</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="representing-data"><a class="header" href="#representing-data">Representing data</a></h1>
 <h2 id="binary"><a class="header" href="#binary">Binary</a></h2>
 <p>You may be familiar with the notion that computers internally handle data as
@@ -365,8 +370,8 @@ and orderly transmission on the line (e.g. the 16 bits for the cylic redundancy 
 These details are largely unimportant for Software. For our purposes, a CAN frame is
 composed of two parts: the frame ID and the data.</p>
 <ul>
-<li><strong>Frame ID</strong>: The frame ID (also called arbitration ID, message ID, standard identifier,
-or simply ID) is comprised of 11 bits and is responsible for identifying the sender of
+<li><strong>Frame ID</strong>: The frame ID (also called the arbitration ID, message ID, standard identifier,
+or simply ID) contains 11 bits and is responsible for identifying the sender of
 the CAN frame and the type of values contained within. For example, on a given CAN network,
 a frame ID of 0x403 might correspond to velocity measurement message from one motor
 controller, an ID of 0x413 might correspond to the same message from another motor
@@ -426,7 +431,7 @@ The result will be in the &quot;little-endian&quot; cell.</p>
 <details>
 <summary>Solution</summary>
 <p>This is a &quot;Status&quot; message sent by the MPPT at base address 0x620.
-This signal values are:</p>
+The signal values are:</p>
 <pre><code class="language-python">{
     &quot;CAN_RX_error_counter&quot;: 0,
     &quot;CAN_TX_error_counter&quot;: 0,
@@ -462,7 +467,7 @@ This signal values are:</p>
 <details>
 <summary>Solution</summary>
 <p>This is a &quot;3.3V &amp; 1.9V Voltage Rail Measurement&quot; message sent by the motor
-controller at base address 0x400. This signal values are:</p>
+controller at base address 0x400. The signal values are:</p>
 <pre><code class="language-python">{
     &quot;Supply1V9&quot;: 1.868830919265747,
     &quot;Supply3V3&quot;: 3.3266239166259766
@@ -480,7 +485,7 @@ controller at base address 0x400. This signal values are:</p>
 <details>
 <summary>Solution</summary>
 This is a "Temperature" message sent by the MPPT at base address 0x610.
-This signal values are:
+The signal values are:
 <pre><code class="language-python">{
     &quot;Controller_temperature&quot;: 22.182621002197266,
     &quot;Mosfet_temperature&quot;: 15.401199340820312
