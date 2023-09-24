@@ -56,7 +56,7 @@ sidebar on the left).
 <summary>Solution</summary>
 
 This is a "Status" message sent by the MPPT at base address 0x620.
-This signal values are:
+The signal values are:
 
 ```python
 {
@@ -103,7 +103,7 @@ This signal values are:
 <summary>Solution</summary>
 
 This is a "3.3V & 1.9V Voltage Rail Measurement" message sent by the motor
-controller at base address 0x400. This signal values are:
+controller at base address 0x400. The signal values are:
 
 ```python
 {
@@ -131,7 +131,7 @@ controller at base address 0x400. This signal values are:
 <details>
 <summary>Solution</summary>
 This is a "Temperature" message sent by the MPPT at base address 0x610.
-This signal values are:
+The signal values are:
 
 
 ```python
