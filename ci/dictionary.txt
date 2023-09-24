@@ -1,16 +1,27 @@
 personal_ws-1.1 en 0 utf-8
+backend
 canusb
 CANUSB
 Digi
 Elmar
+Eval
+FGSP
+Grafana
+Grafana's
+invariant
+invariants
 jpeg
+JSON
 mppt
 MPPT
 MPPTs
 pican
 PiCAN
+Postgres
 Prix
 README
+REPL
+runtime
 Sorensen
 wavesculptor
 WaveSculptor

@@ -26,6 +26,3 @@ Software is the format of messages sent on this line. Before we get into that
 though (see [CAN frames](../step-1/can-frames.md)), we need to introduce data
 representations.
 
-In the next chapter, you'll learn how to represent electrical signals as streams
-of bytes and interpret CAN frames.
-
