@@ -177,7 +177,7 @@ with our telemetry system, let's go over some goals for the upcoming year.</p>
 <ul>
 <li>⚠️  ⇒  Very important, should be prioritized.</li>
 <li>⭐️ ⇒  Important, ought to  happen eventually.</li>
-<li>🌱 ⇒  Less critical and more freeform, will depend on time and member interest.</li>
+<li>🌱 ⇒  Less critical and more free form, will depend on time and member interest.</li>
 </ul>
 <p>A rough estimate of the number of people that a project will require is given
 in the <strong>👥 [SIZE]</strong> field. Similarly, a (very) rough estimate of a project's
@@ -199,7 +199,7 @@ working as expected, and we need to ensure everything is functional before
 parts of SC7s are cannibalized for SC8. This also presents an opportunity
 to collect real data traces from the car for other projects
 (<a href="#data-mocking-and-can-traffic-replays----2-4--3-6-weeks">Data mocking and CAN traffic replays</a> and
-<a href="#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks">Exploring timeseries data with machine learning</a>,
+<a href="#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks">Exploring time series data with machine learning</a>,
 for example).</p>
 <p>This project will likely coincide with the later parts of training and involve
 the whole Software team, as it's good hands-on experience.</p>
@@ -230,7 +230,7 @@ reading exceeds a safe value.</p>
 <p>We will not always have access to live CAN data from the solar car during our
 meetings. Initial work was done last year to provide virtual CAN data generation,
 loosely based on previous CAN traffic. This project will expand upon this work
-to introduce data mocking based more accuracetly on observed signals.</p>
+to introduce data mocking based more accurately on observed signals.</p>
 <p>It would also be nice to be able to save CAN traffic and replay it at a
 later time. We have done this sporadically and in a limited capacity in the past,
 essentially writing CAN traffic to text files. It would be much better to store
@@ -241,7 +241,7 @@ with an easier way to save traces.</p>
 need to run tests on or analyze such data (like
 <a href="#rigorous-end-to-end-testing---2-5--6-18-weeks">Rigorous, end-to-end testing</a>
 and
-<a href="#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks">Exploring timeseries data with machine learning</a>).</p>
+<a href="#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks">Exploring time series data with machine learning</a>).</p>
 <h3 id="rigorous-end-to-end-testing---2-5--6-18-weeks"><a class="header" href="#rigorous-end-to-end-testing---2-5--6-18-weeks"><em>Rigorous, end-to-end testing</em> (⭐️, 👥 2-5, 📅 6-18 weeks)</a></h3>
 <p>No matter how well thought out a complex piece of software is, it is ultimately likely
 to have bugs or be error-prone if it isn't battle-tested. This is especially true for
@@ -258,7 +258,7 @@ and sends a corrupted packet, the base-station receiver code should not crash.</
 is to write comprehensive tests. A common technique is end-to-end testing, which
 tests a system holistically, attempting to accurately mimic real operation. This
 project will involving incrementally creating test suites to validate our software.
-Those working on this project may explore modelling the car's operation as a state
+Those working on this project may explore modeling the car's operation as a state
 machine, where various effects (e.g. a cable being jostled lose) are represented
 by state transitions.</p>
 <h3 id="cloud-hosted-databases-and-dashboard---2-4--3-6-weeks"><a class="header" href="#cloud-hosted-databases-and-dashboard---2-4--3-6-weeks"><em>Cloud hosted databases and dashboard</em> (⭐️, 👥 2-4, 📅 3-6 weeks)</a></h3>
@@ -292,7 +292,7 @@ however, being a battery hog is unacceptable, as all the power the onboard syste
 ultimately comes from the solar cells that power the car. Those interested in other
 programming languages might investigate the energy cost of running Python on the
 Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
-the Python runtime is unnacceptably inefficient for our needs (this admittedly seems
+the Python runtime is unacceptably inefficient for our needs (this admittedly seems
 unlikely), the team could consider migrating a small part of the system to a different
 language.</p>
 <h3 id="running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><a class="header" href="#running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><em>Running an onboard REPL to aid debugging</em> (🌱, 👥 1-4, 📅 3-6 weeks)</a></h3>
@@ -302,11 +302,11 @@ Space probe. When code on the probe stopped working, engineers on Earth were abl
 to debug it and send it the necessary commands to fix the issue through this REPL.</p>
 <p>Python, like LISP, can run with a REPL, and, like the NASA team, we stand to
 benefit from accessing such an onboard REPL remotely. It would be a challenge
-to figure out to set this up over XBee devicess, but this project could be a
+to figure out to set this up over XBee devices, but this project could be a
 lot of fun!</p>
-<h3 id="exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><a class="header" href="#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><em>Exploring timeseries data with machine learning</em> (🌱, 👥 1-5, 📅 3-18 weeks)</a></h3>
+<h3 id="exploring-time-series-data-with-machine-learning---1-5--3-18-weeks"><a class="header" href="#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks"><em>Exploring time series data with machine learning</em> (🌱, 👥 1-5, 📅 3-18 weeks)</a></h3>
 <p>Analyzing CAN traffic with machine learning models could provide interesting
-opportunites for racing stategy. Through this project, members interested in ML
+opportunities for racing strategy. Through this project, members interested in ML
 could explore how, if at all, we could use such models to optimize our decisions
 at a race.</p>
 <h2 id="other-projects"><a class="header" href="#other-projects">Other projects</a></h2>

@@ -167,6 +167,115 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="exercise---thinking-like-a-computer"><a class="header" href="#exercise---thinking-like-a-computer">Exercise - Thinking like a computer</a></h1>
+<p>It's time to put your newfound CAN bus knowledge to use. In this exercise, you'll
+manually decode a few CAN frames in preparation for later automating this first stage of
+the telemetry processing pipeline with Python.</p>
+<p>For this exercise, assume we are working on a CAN bus containing the following four
+devices:</p>
+<ol>
+<li>An Elmar Solar MPPT with base address 0x600.</li>
+<li>An Elmar Solar MPPT with base address 0x610.</li>
+<li>An Elmar Solar MPPT with base address 0x620.</li>
+<li>A Tritium WaveSculptor 22 Motor Controller with base address 0x400.</li>
+</ol>
+<p>To decode the following CAN frames observed on this network, you will need to
+refer to the relevant datasheets for each device, which can be found in the
+corresponding sections of the Hardware Reference in this handbook (see the
+sidebar on the left).</p>
+<blockquote>
+<h3 id="a-note-on-types"><a class="header" href="#a-note-on-types">A note on types</a></h3>
+<p>In the CAN frame specifications for each device, you will find information
+about the &quot;type&quot; of a variable inside a message. For example, the
+&quot;Identification Information&quot; frame for a motor controller is specified as
+containing two variables of type <code>Uint32</code>. Similarly, you will also
+find references to <code>Uint8</code>, <code>Uint16</code>, etc. These types signify that the
+bit pattern in the data field should be parsed as an unsigned (i.e. nonnegative)
+integer, with bit-widths of 32, 8, 16, etc. Unsigned integers are not too hard
+to parse by hand; it's analagous to the discussion in
+<a href="../step-1/representing-data.html">Section 3.1</a>.</p>
+<p>You will also see messages where variables are given the type <code>float</code> (explicitly in
+the MPPT datasheet; implicitly in the motor controller specs). A <code>float</code> is a
+representation of fractional numbers, following the
+<a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE 754 Standard</a>. 1.5, -2.0, 10000000.0, and
+0.30000000000000004 can all be represented with floating point numbers. Although most
+signals are naturally of type <code>float</code> (temperature, velocity, voltage, etc. are not
+going to be integers), parsing <code>float</code>s by hand is entirely different than for integers
+and is very tedious. You can use an online converter like
+<a href="https://www.scadacore.com/tools/programming-calculators/online-hex-converter/">this one</a>
+to decode <code>float</code>s from their hex representation (you can omit the &quot;0x&quot; in the converter).
+The result will be in the &quot;little-endian&quot; cell.</p>
+</blockquote>
+<h2 id="frames-to-decode"><a class="header" href="#frames-to-decode">Frames to decode</a></h2>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x625</td><td style="text-align: center">0x0000000500018028</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+<p>This is a &quot;Status&quot; message sent by the MPPT at base address 0x620.
+This signal values are:</p>
+<pre><code class="language-python">{
+    &quot;CAN_RX_error_counter&quot;: 0,
+    &quot;CAN_TX_error_counter&quot;: 0,
+    &quot;CAN_TX_overflow_counter&quot;: 0,
+    &quot;HW_overvoltage&quot;: 1,
+    &quot;HW_overcurrent&quot;: 0,
+    &quot;Twelve_V_undervoltage&quot;: 0,
+    &quot;Batter_full&quot;: 0,
+    &quot;Battery_low&quot;: 0,
+    &quot;Mosfet_overheat&quot;: 0,
+    &quot;Low_array_power&quot;: 0,
+    &quot;Global_MPPT&quot;: 0,
+    &quot;Local_MPPT&quot;: 0,
+    &quot;Duty_cycle_max&quot;: 0,
+    &quot;Duty_cycle_min&quot;: 0,
+    &quot;Mosfet_temperature_error&quot;: 0,
+    &quot;Output_voltage_max&quot;: 0,
+    &quot;Input_current_max&quot;: 0,
+    &quot;Input_current_min&quot;: 0,
+    &quot;Mode&quot;: 1,
+    &quot;Test_counter&quot;: 40
+}
+</code></pre>
+</details>
+<hr />
+<br/>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x409</td><td style="text-align: center">0xDA35EF3F68E75440</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+<p>This is a &quot;3.3V &amp; 1.9V Voltage Rail Measurement&quot; message sent by the motor
+controller at base address 0x400. This signal values are:</p>
+<pre><code class="language-python">{
+    &quot;Supply1V9&quot;: 1.868830919265747,
+    &quot;Supply3V3&quot;: 3.3266239166259766
+}
+</code></pre>
+</details>
+<hr />
+<br/>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x612</td><td style="text-align: center">0x506B76410276B141</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+This is a "Temperature" message sent by the MPPT at base address 0x610.
+This signal values are:
+<pre><code class="language-python">{
+    &quot;Controller_temperature&quot;: 22.182621002197266,
+    &quot;Mosfet_temperature&quot;: 15.401199340820312
+}
+</code></pre>
+</details>
 
                     </main>
 

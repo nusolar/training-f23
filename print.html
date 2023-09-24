@@ -264,18 +264,229 @@ Software is the format of messages sent on this line. Before we get into that
 though (see <a href="pipeline/step-0/../step-1/can-frames.html">CAN frames</a>), we need to introduce data
 representations.</li>
 </ol>
-<p>In the next chapter, you'll learn how to represent electrical signals as streams
-of bytes and interpret CAN frames.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-stream-of-bytes"><a class="header" href="#a-stream-of-bytes">A stream of bytes</a></h1>
+<p>Thinking of telemetry data as signals in a wire is difficult. If we want
+to make sense of it, we need a better way to represent it. In this chapter,
+you'll learn how to format data in binary and hexadecimal, how to represent
+electrical signals as streams of bytes, and how to interpret individual
+CAN frames.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="representing-data"><a class="header" href="#representing-data">Representing data</a></h1>
+<h2 id="binary"><a class="header" href="#binary">Binary</a></h2>
+<p>You may be familiar with the notion that computers internally handle data as
+sequences of zeros and ones. Indeed, a &quot;binary&quot; representation of numbers
+(and more generally, any kind of data) turns out to be a natural choice for
+computers and electrical circuitry. So how does it work?</p>
+<p>Consider the number 2023. When you read this number, you implicitly understand
+it using the base-10 representation we all learned in grade school. 2023 is made
+up of 2 thousands, 0 hundreds, 2 tens, and 3 ones. Or:</p>
+<blockquote>
+<p>2023 = <strong>2</strong> × 10<sup>3</sup> + <strong>0</strong> × 10<sup>2</sup> + <strong>2</strong> × 10<sup>1</sup> + <strong>3</strong> × 10<sup>0</sup>.</p>
+</blockquote>
+<p>This common base-10 (or &quot;decimal&quot;) representation of numbers likely developed because of
+the 10 fingers on human hands, but there is really nothing special about 10. For example,
+it is also true that:<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<blockquote>
+<p>2023 = <strong>1</strong> × 2<sup>10</sup> + <strong>1</strong> × 2<sup>9</sup> + <strong>1</strong> × 2<sup>8</sup> + <strong>1</strong> × 2<sup>7</sup> + <strong>1</strong> × 2<sup>6</sup> + <strong>1</strong> × 2<sup>5</sup> + <strong>0</strong> × 2<sup>4</sup> + <strong>0</strong> × 2<sup>3</sup> + <strong>1</strong> × 2<sup>2</sup> + <strong>1</strong> × 2<sup>1</sup> + <strong>1</strong> × 2<sup>0</sup>.</p>
+</blockquote>
+<p>Working in a base-2 (or &quot;binary&quot;) representation, where every digit must be
+either 0 or 1, we can see that 2023 can be written as 11111100111. To avoid
+confusion between bases, we typically prepend the prefix &quot;0b&quot; to numbers writen
+in binary. And so, 2023 = 0b11111100111.</p>
+<p>Binary gives us a way to &quot;encode&quot; signals sent on wires into something more
+familiar—numbers. A signal with a voltage profile of high-high-high-low, for
+example,  maps to 0b1110 in binary, or 14 in decimal. Nevertheless, binary is
+difficult for humans to work with directly. We need a better representation for
+raw data<sup class="footnote-reference"><a href="#2">2</a></sup>.</p>
+<blockquote>
+<h3 id="terminology"><a class="header" href="#terminology">Terminology</a></h3>
+<p>Just as we refer to each character in a decimal number as a digit, we also define the
+term <em>bit</em> to mean &quot;<b>b</b>inary dig<b>it</b>&quot;. The number 0b10101011 has 8 bits.</p>
+<p>Binary numbers can grow quite long, and so <em>bytes</em> (where 1 byte = 8 bits) are more
+commmonly used as a unit when speaking of binary data.</p>
+</blockquote>
+<h2 id="hexadecimal"><a class="header" href="#hexadecimal">Hexadecimal</a></h2>
+<p>Hexadecimal is a base-16 numbering system. Like binary, it is more useful for representing
+raw data than decimal. But unlike binary, hexadecimal tends to be much easier to read at
+a glance. Continuing the previous example, we may write:</p>
+<blockquote>
+<p>2023 = <strong>7</strong> × 16<sup>2</sup> + <strong>14</strong> × 16<sup>1</sup> + <strong>7</strong> × 16<sup>0</sup></p>
+</blockquote>
+<p>Here we run into trouble with the numerals we have at our disposal. The above coefficients
+would suggest that the base-16 representation of 2023 is something like 7|14|7. Since there
+are no natural single-character glyphs for numbers above 9, the common practice is to continue
+with the alphabet (10 → A, 11 → B, 12 → C, etc.). Therefore, the hexadecimal representation of
+2023 becomes 0x7E7 (where the prefix &quot;0x&quot; denotes hexadecimal).</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">decimal</th><th style="text-align: center">binary</th><th style="text-align: center">hexadecimal</th></tr></thead><tbody>
+<tr><td style="text-align: center">00</td><td style="text-align: center">0b0000</td><td style="text-align: center">0x0</td></tr>
+<tr><td style="text-align: center">01</td><td style="text-align: center">0b0001</td><td style="text-align: center">0x1</td></tr>
+<tr><td style="text-align: center">02</td><td style="text-align: center">0b0010</td><td style="text-align: center">0x2</td></tr>
+<tr><td style="text-align: center">03</td><td style="text-align: center">0b0011</td><td style="text-align: center">0x3</td></tr>
+<tr><td style="text-align: center">04</td><td style="text-align: center">0b0100</td><td style="text-align: center">0x4</td></tr>
+<tr><td style="text-align: center">05</td><td style="text-align: center">0b0101</td><td style="text-align: center">0x5</td></tr>
+<tr><td style="text-align: center">06</td><td style="text-align: center">0b0110</td><td style="text-align: center">0x6</td></tr>
+<tr><td style="text-align: center">07</td><td style="text-align: center">0b0111</td><td style="text-align: center">0x7</td></tr>
+<tr><td style="text-align: center">08</td><td style="text-align: center">0b1000</td><td style="text-align: center">0x8</td></tr>
+<tr><td style="text-align: center">09</td><td style="text-align: center">0b1001</td><td style="text-align: center">0x9</td></tr>
+<tr><td style="text-align: center">10</td><td style="text-align: center">0b1010</td><td style="text-align: center">0xA</td></tr>
+<tr><td style="text-align: center">11</td><td style="text-align: center">0b1011</td><td style="text-align: center">0xB</td></tr>
+<tr><td style="text-align: center">12</td><td style="text-align: center">0b1100</td><td style="text-align: center">0xC</td></tr>
+<tr><td style="text-align: center">13</td><td style="text-align: center">0b1101</td><td style="text-align: center">0xD</td></tr>
+<tr><td style="text-align: center">14</td><td style="text-align: center">0b1110</td><td style="text-align: center">0xE</td></tr>
+<tr><td style="text-align: center">15</td><td style="text-align: center">0b1111</td><td style="text-align: center">0xF</td></tr>
+</tbody></table>
+</div><div style="text-align: center"><i>The first 16 natural numbers in decimal, binary, and hexadecimal</i></div>
+<p>As you'll see in the next chapter, both binary and hexadecimal are useful ways of interpreting
+messages sent on the CAN bus.</p>
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Don't worry about how to come up with this expression for now. It's not terribly difficult,
+but for this training you will only need to be familiar with the concept and the appropriate
+Python functions to call.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>&quot;Raw data&quot; generally refers to any information that is not meant to be read or written
+by humans. CAN frames, as we will see later, are one such example. It is also worth noting
+that raw data is often referred to as <em>binary</em> data to emphasize that it is best thought of
+as bytes and not as text. You may also hear executable files called <em>binaries</em> for a
+similar reason.</p>
+</div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="can-frames"><a class="header" href="#can-frames">CAN frames</a></h1>
+<p>As mentioned in <a href="pipeline/step-1/../step-0">Chapter 2</a>, the CAN bus is the network on which all
+the solar car's components communicate with one another. Messages sent on this
+network are called CAN frames.</p>
 <p><img src="pipeline/step-1/../../images/CAN-frame-electrical.png" alt="An electrical view of a CAN bus frame" /></p>
 <div style="text-align: center"><i>The electrical view of a CAN bus frame</i></div>
 <br>
 <img src="pipeline/step-1/../../images/can-frame.svg" style="background-color: #FFFFFF"/>
 <br/> <br/>
 <div style="text-align: center"><i>A simplified view of a CAN bus frame</i></div>
+<p>As shown above, many of this bits in a frame are responsible for ensuring reliable
+and orderly transmission on the line (e.g. the 16 bits for the cylic redundancy check).
+These details are largely unimportant for Software. For our purposes, a CAN frame is
+composed of two parts: the frame ID and the data.</p>
+<ul>
+<li><strong>Frame ID</strong>: The frame ID (also called arbitration ID, message ID, standard identifier,
+or simply ID) is comprised of 11 bits and is responsible for identifying the sender of
+the CAN frame and the type of values contained within. For example, on a given CAN network,
+a frame ID of 0x403 might correspond to velocity measurement message from one motor
+controller, an ID of 0x413 might correspond to the same message from another motor
+controller, and an ID of 0x602 might indicate a temperature measurement message from an
+MPPT.</li>
+<li><strong>Data</strong>: Up to 64 bits of a CAN frame contain the actual values of some signal. This
+is the core of the message.</li>
+</ul>
+<p>In the next section you'll learn more about CAN frames as you try your hand at decoding
+them yourself.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exercise---thinking-like-a-computer"><a class="header" href="#exercise---thinking-like-a-computer">Exercise - Thinking like a computer</a></h1>
+<p>It's time to put your newfound CAN bus knowledge to use. In this exercise, you'll
+manually decode a few CAN frames in preparation for later automating this first stage of
+the telemetry processing pipeline with Python.</p>
+<p>For this exercise, assume we are working on a CAN bus containing the following four
+devices:</p>
+<ol>
+<li>An Elmar Solar MPPT with base address 0x600.</li>
+<li>An Elmar Solar MPPT with base address 0x610.</li>
+<li>An Elmar Solar MPPT with base address 0x620.</li>
+<li>A Tritium WaveSculptor 22 Motor Controller with base address 0x400.</li>
+</ol>
+<p>To decode the following CAN frames observed on this network, you will need to
+refer to the relevant datasheets for each device, which can be found in the
+corresponding sections of the Hardware Reference in this handbook (see the
+sidebar on the left).</p>
+<blockquote>
+<h3 id="a-note-on-types"><a class="header" href="#a-note-on-types">A note on types</a></h3>
+<p>In the CAN frame specifications for each device, you will find information
+about the &quot;type&quot; of a variable inside a message. For example, the
+&quot;Identification Information&quot; frame for a motor controller is specified as
+containing two variables of type <code>Uint32</code>. Similarly, you will also
+find references to <code>Uint8</code>, <code>Uint16</code>, etc. These types signify that the
+bit pattern in the data field should be parsed as an unsigned (i.e. nonnegative)
+integer, with bit-widths of 32, 8, 16, etc. Unsigned integers are not too hard
+to parse by hand; it's analagous to the discussion in
+<a href="pipeline/step-1/../step-1/representing-data.html">Section 3.1</a>.</p>
+<p>You will also see messages where variables are given the type <code>float</code> (explicitly in
+the MPPT datasheet; implicitly in the motor controller specs). A <code>float</code> is a
+representation of fractional numbers, following the
+<a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE 754 Standard</a>. 1.5, -2.0, 10000000.0, and
+0.30000000000000004 can all be represented with floating point numbers. Although most
+signals are naturally of type <code>float</code> (temperature, velocity, voltage, etc. are not
+going to be integers), parsing <code>float</code>s by hand is entirely different than for integers
+and is very tedious. You can use an online converter like
+<a href="https://www.scadacore.com/tools/programming-calculators/online-hex-converter/">this one</a>
+to decode <code>float</code>s from their hex representation (you can omit the &quot;0x&quot; in the converter).
+The result will be in the &quot;little-endian&quot; cell.</p>
+</blockquote>
+<h2 id="frames-to-decode"><a class="header" href="#frames-to-decode">Frames to decode</a></h2>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x625</td><td style="text-align: center">0x0000000500018028</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+<p>This is a &quot;Status&quot; message sent by the MPPT at base address 0x620.
+This signal values are:</p>
+<pre><code class="language-python">{
+    &quot;CAN_RX_error_counter&quot;: 0,
+    &quot;CAN_TX_error_counter&quot;: 0,
+    &quot;CAN_TX_overflow_counter&quot;: 0,
+    &quot;HW_overvoltage&quot;: 1,
+    &quot;HW_overcurrent&quot;: 0,
+    &quot;Twelve_V_undervoltage&quot;: 0,
+    &quot;Batter_full&quot;: 0,
+    &quot;Battery_low&quot;: 0,
+    &quot;Mosfet_overheat&quot;: 0,
+    &quot;Low_array_power&quot;: 0,
+    &quot;Global_MPPT&quot;: 0,
+    &quot;Local_MPPT&quot;: 0,
+    &quot;Duty_cycle_max&quot;: 0,
+    &quot;Duty_cycle_min&quot;: 0,
+    &quot;Mosfet_temperature_error&quot;: 0,
+    &quot;Output_voltage_max&quot;: 0,
+    &quot;Input_current_max&quot;: 0,
+    &quot;Input_current_min&quot;: 0,
+    &quot;Mode&quot;: 1,
+    &quot;Test_counter&quot;: 40
+}
+</code></pre>
+</details>
+<hr />
+<br/>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x409</td><td style="text-align: center">0xDA35EF3F68E75440</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+<p>This is a &quot;3.3V &amp; 1.9V Voltage Rail Measurement&quot; message sent by the motor
+controller at base address 0x400. This signal values are:</p>
+<pre><code class="language-python">{
+    &quot;Supply1V9&quot;: 1.868830919265747,
+    &quot;Supply3V3&quot;: 3.3266239166259766
+}
+</code></pre>
+</details>
+<hr />
+<br/>
+<div style="display: flex; justify-content: left;">
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Frame ID</th><th style="text-align: center">Data</th></tr></thead><tbody>
+<tr><td style="text-align: center">0x612</td><td style="text-align: center">0x506B76410276B141</td></tr>
+</tbody></table>
+</div></div>
+<br/>
+<details>
+<summary>Solution</summary>
+This is a "Temperature" message sent by the MPPT at base address 0x610.
+This signal values are:
+<pre><code class="language-python">{
+    &quot;Controller_temperature&quot;: 22.182621002197266,
+    &quot;Mosfet_temperature&quot;: 15.401199340820312
+}
+</code></pre>
+</details>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="an-object-in-memory"><a class="header" href="#an-object-in-memory">An object in memory</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-python-programming-language"><a class="header" href="#the-python-programming-language">The Python programming language</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up"><a class="header" href="#setting-up">Setting up</a></h1>
@@ -306,7 +517,7 @@ with our telemetry system, let's go over some goals for the upcoming year.</p>
 <ul>
 <li>⚠️  ⇒  Very important, should be prioritized.</li>
 <li>⭐️ ⇒  Important, ought to  happen eventually.</li>
-<li>🌱 ⇒  Less critical and more freeform, will depend on time and member interest.</li>
+<li>🌱 ⇒  Less critical and more free form, will depend on time and member interest.</li>
 </ul>
 <p>A rough estimate of the number of people that a project will require is given
 in the <strong>👥 [SIZE]</strong> field. Similarly, a (very) rough estimate of a project's
@@ -328,7 +539,7 @@ working as expected, and we need to ensure everything is functional before
 parts of SC7s are cannibalized for SC8. This also presents an opportunity
 to collect real data traces from the car for other projects
 (<a href="system/goals.html#data-mocking-and-can-traffic-replays----2-4--3-6-weeks">Data mocking and CAN traffic replays</a> and
-<a href="system/goals.html#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks">Exploring timeseries data with machine learning</a>,
+<a href="system/goals.html#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks">Exploring time series data with machine learning</a>,
 for example).</p>
 <p>This project will likely coincide with the later parts of training and involve
 the whole Software team, as it's good hands-on experience.</p>
@@ -359,7 +570,7 @@ reading exceeds a safe value.</p>
 <p>We will not always have access to live CAN data from the solar car during our
 meetings. Initial work was done last year to provide virtual CAN data generation,
 loosely based on previous CAN traffic. This project will expand upon this work
-to introduce data mocking based more accuracetly on observed signals.</p>
+to introduce data mocking based more accurately on observed signals.</p>
 <p>It would also be nice to be able to save CAN traffic and replay it at a
 later time. We have done this sporadically and in a limited capacity in the past,
 essentially writing CAN traffic to text files. It would be much better to store
@@ -370,7 +581,7 @@ with an easier way to save traces.</p>
 need to run tests on or analyze such data (like
 <a href="system/goals.html#rigorous-end-to-end-testing---2-5--6-18-weeks">Rigorous, end-to-end testing</a>
 and
-<a href="system/goals.html#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks">Exploring timeseries data with machine learning</a>).</p>
+<a href="system/goals.html#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks">Exploring time series data with machine learning</a>).</p>
 <h3 id="rigorous-end-to-end-testing---2-5--6-18-weeks"><a class="header" href="#rigorous-end-to-end-testing---2-5--6-18-weeks"><em>Rigorous, end-to-end testing</em> (⭐️, 👥 2-5, 📅 6-18 weeks)</a></h3>
 <p>No matter how well thought out a complex piece of software is, it is ultimately likely
 to have bugs or be error-prone if it isn't battle-tested. This is especially true for
@@ -387,7 +598,7 @@ and sends a corrupted packet, the base-station receiver code should not crash.</
 is to write comprehensive tests. A common technique is end-to-end testing, which
 tests a system holistically, attempting to accurately mimic real operation. This
 project will involving incrementally creating test suites to validate our software.
-Those working on this project may explore modelling the car's operation as a state
+Those working on this project may explore modeling the car's operation as a state
 machine, where various effects (e.g. a cable being jostled lose) are represented
 by state transitions.</p>
 <h3 id="cloud-hosted-databases-and-dashboard---2-4--3-6-weeks"><a class="header" href="#cloud-hosted-databases-and-dashboard---2-4--3-6-weeks"><em>Cloud hosted databases and dashboard</em> (⭐️, 👥 2-4, 📅 3-6 weeks)</a></h3>
@@ -421,7 +632,7 @@ however, being a battery hog is unacceptable, as all the power the onboard syste
 ultimately comes from the solar cells that power the car. Those interested in other
 programming languages might investigate the energy cost of running Python on the
 Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
-the Python runtime is unnacceptably inefficient for our needs (this admittedly seems
+the Python runtime is unacceptably inefficient for our needs (this admittedly seems
 unlikely), the team could consider migrating a small part of the system to a different
 language.</p>
 <h3 id="running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><a class="header" href="#running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><em>Running an onboard REPL to aid debugging</em> (🌱, 👥 1-4, 📅 3-6 weeks)</a></h3>
@@ -431,11 +642,11 @@ Space probe. When code on the probe stopped working, engineers on Earth were abl
 to debug it and send it the necessary commands to fix the issue through this REPL.</p>
 <p>Python, like LISP, can run with a REPL, and, like the NASA team, we stand to
 benefit from accessing such an onboard REPL remotely. It would be a challenge
-to figure out to set this up over XBee devicess, but this project could be a
+to figure out to set this up over XBee devices, but this project could be a
 lot of fun!</p>
-<h3 id="exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><a class="header" href="#exploring-timeseries-data-with-machine-learning---1-5--3-18-weeks"><em>Exploring timeseries data with machine learning</em> (🌱, 👥 1-5, 📅 3-18 weeks)</a></h3>
+<h3 id="exploring-time-series-data-with-machine-learning---1-5--3-18-weeks"><a class="header" href="#exploring-time-series-data-with-machine-learning---1-5--3-18-weeks"><em>Exploring time series data with machine learning</em> (🌱, 👥 1-5, 📅 3-18 weeks)</a></h3>
 <p>Analyzing CAN traffic with machine learning models could provide interesting
-opportunites for racing stategy. Through this project, members interested in ML
+opportunities for racing strategy. Through this project, members interested in ML
 could explore how, if at all, we could use such models to optimize our decisions
 at a race.</p>
 <h2 id="other-projects"><a class="header" href="#other-projects">Other projects</a></h2>
