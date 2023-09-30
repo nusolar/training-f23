@@ -257,7 +257,7 @@ the <em>raison d'être</em> of the Software team; our job is fundamentally based
 processing this traffic.</li>
 <li>This circuit follows the Controller Area Network (CAN bus) standard, which is
 a protocol commonly used in automobiles. The protocol defines certain electrical
-properties (e.g. the charactereistic impedance of the transmission line) that,
+properties (e.g. the characteristic impedance of the transmission line) that,
 when met, allow devices on the network to communicate with minimal errors and
 noise. Again, this is largely Electrical's domain, but what's important for
 Software is the format of messages sent on this line. Before we get into that
@@ -295,7 +295,7 @@ it is also true that:<sup class="footnote-reference"><a href="#1">1</a></sup></p
 </blockquote>
 <p>Working in a base-2 (or &quot;binary&quot;) representation, where every digit must be
 either 0 or 1, we can see that 2023 can be written as 11111100111. To avoid
-confusion between bases, we typically prepend the prefix &quot;0b&quot; to numbers writen
+confusion between bases, we typically prepend the prefix &quot;0b&quot; to numbers written
 in binary. And so, 2023 = 0b11111100111.</p>
 <p>Binary gives us a way to &quot;encode&quot; signals sent on wires into something more
 familiar—numbers. A signal with a voltage profile of high-high-high-low, for
@@ -307,7 +307,7 @@ raw data<sup class="footnote-reference"><a href="#2">2</a></sup>.</p>
 <p>Just as we refer to each character in a decimal number as a digit, we also define the
 term <em>bit</em> to mean &quot;<b>b</b>inary dig<b>it</b>&quot;. The number 0b10101011 has 8 bits.</p>
 <p>Binary numbers can grow quite long, and so <em>bytes</em> (where 1 byte = 8 bits) are more
-commmonly used as a unit when speaking of binary data.</p>
+commonly used as a unit when speaking of binary data.</p>
 </blockquote>
 <h2 id="hexadecimal"><a class="header" href="#hexadecimal">Hexadecimal</a></h2>
 <p>Hexadecimal is a base-16 numbering system. Like binary, it is more useful for representing
@@ -407,7 +407,7 @@ containing two variables of type <code>Uint32</code>. Similarly, you will also
 find references to <code>Uint8</code>, <code>Uint16</code>, etc. These types signify that the
 bit pattern in the data field should be parsed as an unsigned (i.e. nonnegative)
 integer, with bit-widths of 32, 8, 16, etc. Unsigned integers are not too hard
-to parse by hand; it's analagous to the discussion in
+to parse by hand; it's analogous to the discussion in
 <a href="pipeline/step-1/../step-1/representing-data.html">Section 3.1</a>.</p>
 <p>You will also see messages where variables are given the type <code>float</code> (explicitly in
 the MPPT datasheet; implicitly in the motor controller specs). A <code>float</code> is a
@@ -534,13 +534,13 @@ may become harder to debug your specific setup if the need arises.</p>
 </blockquote>
 <h2 id="macos"><a class="header" href="#macos">macOS</a></h2>
 <p>If macOS is your operating system of choice, you likely already have
-Python installed, but the specific version is likely old and best left
+Python installed, but the specific version is probably old and best left
 alone. To get started, open the terminal (Terminal.app in Applications).
 The terminal is an environment where you can control your computer with
 textual commands instead of a GUI. You will use the terminal a lot in
 your software career.</p>
 <blockquote>
-<p>In the terminal, commands are issued follwing the prompt (typically a
+<p>In the terminal, commands are issued following the prompt (typically a
 <code>$</code> or <code>&gt;</code>). Commands listed here follow the format <code>$ [command]</code>, to
 indicate the <code>[command]</code> is to be run in the terminal. When copying
 these commands, do not copy the leading <code>$</code>.</p>
@@ -608,6 +608,22 @@ when you enter/exit the project folder. Install it with Homebrew:</p>
 For example, if you are using zsh, you would run:</p>
 <pre><code class="language-zsh">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
 </code></pre>
+<blockquote>
+<p>If you use <a href="https://github.com/tmux/tmux/wiki">tmux</a> as a terminal multiplexer,
+you may need to make some adjustments to your shell config file to ensure everything
+works. For example, the author of this handbook had to add the following lines to
+his <code>.zshrc</code>:</p>
+<pre><code class="language-bash"># Make tmux play nicely with direnv
+alias tmux='direnv exec / tmux'
+
+# Need to reload direnv in tmux for some reason to ensure
+# correct environment variables. Particularly for pyenv.
+if [ -n &quot;$TMUX&quot; ] &amp;&amp; [ -n &quot;$DIRENV_DIR&quot; ]; then
+    export DIRENV_LOG_FORMAT= # Don't print this reload or the Powerlevel10k prompt will freak out.
+    direnv reload
+fi
+</code></pre>
+</blockquote>
 <h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
 <p>Windows is a trickier platform for Python development. Because many packages are
 only available on Unix-like platforms (macOS or Linux), and because the Raspberry
@@ -621,7 +637,7 @@ for installing pyenv and direnv, but use your system package (<code>apt</code> i
 Homebrew.</p>
 <h2 id="text-editor"><a class="header" href="#text-editor">Text Editor</a></h2>
 <p>To actually write code, you will need a text editor or an IDE. This is the subject of a
-long running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and
+long-running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and
 <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> are good choices.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
 <blockquote>
@@ -631,6 +647,113 @@ Python background. For Python beginners,
 a very good resource to pick up the language as you work through the
 exercise in the following section.</p>
 </blockquote>
+<h2 id="running-python-code"><a class="header" href="#running-python-code">Running Python code</a></h2>
+<p>The Python interpreter can be accessed interactively in the terminal:</p>
+<pre><code class="language-bash">$ python
+Python 3.11.4 (main, Jul 24 2023, 12:13:16) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; print(&quot;Hello, world!&quot;)
+Hello, world!
+&gt;&gt;&gt; 1 + 2
+3
+&gt;&gt;&gt;
+</code></pre>
+<blockquote>
+<p>Depending on your Python installation, you may need to use <code>python3</code> or <code>py</code> instead
+of the <code>python</code> command.</p>
+</blockquote>
+<p>But, for larger scripts, it's better to write Python code into a file, which can be run
+later. For example, try creating a file called <code>hello_world.py</code> with the contents:</p>
+<pre><code class="language-python">print(&quot;Hello, world!&quot;)
+</code></pre>
+<p>We can then run this file in the terminal:</p>
+<pre><code class="language-bash">$ python hello_world.py
+Hello, world!
+</code></pre>
+<p>It should also possible to run the file using the &quot;Run&quot; button in your editor of choice.</p>
+<h2 id="simple-examples"><a class="header" href="#simple-examples">Simple examples</a></h2>
+<p>Many of the following code snippets have been taken from
+<a href="https://docs.python.org/3/tutorial/">the official Python tutorial</a>. The purpose of this
+section is to give a <em>very</em> broad overview of what Python looks like. The hope is that you
+will learn the relevant parts of Python as you need them, while you work on the telemetry
+pipeline as part of this training. To learn the language more thoroughly, please refer
+to that tutorial.</p>
+<hr />
+<p>Variables in Python are declared using the <code>[name] = [value]</code> syntax, and messages can
+be output to the screen using the <code>print</code> function:</p>
+<pre><code class="language-python">i = 256 * 256
+print(&quot;The value of i is&quot;, i) # output: The value of i is 65536
+</code></pre>
+<hr />
+<p>On any line, everything after a <code>#</code> is a comment. They do not affect to behavior of your code.</p>
+<pre><code class="language-python"># This is a comment.
+x = 1 # This is also a comment.
+# x = 2
+print(x) # output: 1
+</code></pre>
+<hr />
+<p>Python defines a set of default types available to use in your code, including integers, floating
+point (fractional) numbers, complex numbers, booleans (true/false), strings (text), lists, and much more.</p>
+<pre><code class="language-python">an_integer = -10
+a_float = 1.5
+a_complex_number = 1 + 2j
+a_boolean = True
+a_string = &quot;This is a string!&quot;
+a_list = [1, 2, 3, 4, 5]
+</code></pre>
+<hr />
+<p>Python programmers can use the <code>if</code>, <code>elif</code>, and <code>else</code> keywords to cause different behavior depending
+on given conditions.</p>
+<pre><code class="language-python">x = 5
+if x &lt; 0:
+    x = 0
+    print('Negative changed to zero')
+elif x == 0:
+    print('Zero')
+elif x == 1:
+    print('Single')
+else:
+    print('More') # output: More
+</code></pre>
+<hr />
+<p><code>for</code> and <code>while</code> loops can be used to repeat certain behavior. Loops are commonly used
+to iterate over collections, like lists. For example:</p>
+<pre><code class="language-python">a = ['Mary', 'had', 'a', 'little', 'lamb']
+for i in range(len(a)):
+    print(i, a[i]) # output:
+                   # 0 Mary
+                   # 1 had
+                   # 2 a
+                   # 3 little
+                   # 4 lamb
+</code></pre>
+<hr />
+<p>Functions are blocks of code which can defined once and called many times later.
+Functions are Python are defined using the <code>def</code> keyword:</p>
+<pre><code class="language-python">def fib(n): # write Fibonacci series up to n
+    a, b = 0, 1
+    while a &lt; n:
+        print(a, end=' ')
+        a, b = b, a+b
+    print()
+
+# Now call the function we just defined:
+fib(100) # output: 0 1 1 2 3 5 8 13 21 34 55 89
+fib(2000) # output: 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+</code></pre>
+<hr />
+<p>Sometimes you'll want to use code that someone else wrote or that lives in a different file
+in your own project. You can do this with the <code>import</code> statement.</p>
+<pre><code class="language-python">import math
+
+print(math.sin(0.5)) # output: 0.479425538604203
+</code></pre>
+<p>Here, we imported the <code>math</code> module from Python's standard library to calculate
+the sine of 0.5. The standard library is automatically available to your Python
+program. Other packages must be installed before they can be used.</p>
+<hr />
+<p>These examples only scratch the surface of what there is to learn about Python. Again,
+there are many good online resources that go into much more detail!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exercise---an-automated-autopsy"><a class="header" href="#exercise---an-automated-autopsy">Exercise - An automated autopsy</a></h1>
 <p>This exercise is broken into two parts. In the first section, you will craft a
 Python parser to interpret real CAN frames sent by an isolated MPPT under
@@ -644,7 +767,7 @@ have caused it.</p>
 <p><a href="pipeline/step-2/../../misc/mppt_data.txt">This data file</a> contains CAN frames sent by an MPPT on
 it's own CAN network. Frames in this file appear in a <code>[Frame ID] [Data]</code> text
 format, separated by newlines. Frame IDs and data are given in hex, although the
-leading &quot;0x&quot; is ommited.</p>
+leading &quot;0x&quot; is omitted.</p>
 <p>Your job is to use the MPPT datasheet to construct a Python program that processes
 this file into something human-readable.</p>
 <details>

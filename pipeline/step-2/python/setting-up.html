@@ -179,13 +179,13 @@ may become harder to debug your specific setup if the need arises.</p>
 </blockquote>
 <h2 id="macos"><a class="header" href="#macos">macOS</a></h2>
 <p>If macOS is your operating system of choice, you likely already have
-Python installed, but the specific version is likely old and best left
+Python installed, but the specific version is probably old and best left
 alone. To get started, open the terminal (Terminal.app in Applications).
 The terminal is an environment where you can control your computer with
 textual commands instead of a GUI. You will use the terminal a lot in
 your software career.</p>
 <blockquote>
-<p>In the terminal, commands are issued follwing the prompt (typically a
+<p>In the terminal, commands are issued following the prompt (typically a
 <code>$</code> or <code>&gt;</code>). Commands listed here follow the format <code>$ [command]</code>, to
 indicate the <code>[command]</code> is to be run in the terminal. When copying
 these commands, do not copy the leading <code>$</code>.</p>
@@ -253,6 +253,22 @@ when you enter/exit the project folder. Install it with Homebrew:</p>
 For example, if you are using zsh, you would run:</p>
 <pre><code class="language-zsh">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
 </code></pre>
+<blockquote>
+<p>If you use <a href="https://github.com/tmux/tmux/wiki">tmux</a> as a terminal multiplexer,
+you may need to make some adjustments to your shell config file to ensure everything
+works. For example, the author of this handbook had to add the following lines to
+his <code>.zshrc</code>:</p>
+<pre><code class="language-bash"># Make tmux play nicely with direnv
+alias tmux='direnv exec / tmux'
+
+# Need to reload direnv in tmux for some reason to ensure
+# correct environment variables. Particularly for pyenv.
+if [ -n &quot;$TMUX&quot; ] &amp;&amp; [ -n &quot;$DIRENV_DIR&quot; ]; then
+    export DIRENV_LOG_FORMAT= # Don't print this reload or the Powerlevel10k prompt will freak out.
+    direnv reload
+fi
+</code></pre>
+</blockquote>
 <h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
 <p>Windows is a trickier platform for Python development. Because many packages are
 only available on Unix-like platforms (macOS or Linux), and because the Raspberry
@@ -266,7 +282,7 @@ for installing pyenv and direnv, but use your system package (<code>apt</code> i
 Homebrew.</p>
 <h2 id="text-editor"><a class="header" href="#text-editor">Text Editor</a></h2>
 <p>To actually write code, you will need a text editor or an IDE. This is the subject of a
-long running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and
+long-running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and
 <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> are good choices.</p>
 
                     </main>
