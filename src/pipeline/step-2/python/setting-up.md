@@ -12,13 +12,13 @@ development setup.
 
 ## macOS
 If macOS is your operating system of choice, you likely already have
-Python installed, but the specific version is likely old and best left
+Python installed, but the specific version is probably old and best left
 alone. To get started, open the terminal (Terminal.app in Applications).
 The terminal is an environment where you can control your computer with
 textual commands instead of a GUI. You will use the terminal a lot in
 your software career.
 
-> In the terminal, commands are issued follwing the prompt (typically a
+> In the terminal, commands are issued following the prompt (typically a
 > `$` or `>`). Commands listed here follow the format `$ [command]`, to
 > indicate the `[command]` is to be run in the terminal. When copying
 > these commands, do not copy the leading `$`.
@@ -123,6 +123,23 @@ For example, if you are using zsh, you would run:
 $ echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 ```
 
+> If you use [tmux](https://github.com/tmux/tmux/wiki) as a terminal multiplexer,
+> you may need to make some adjustments to your shell config file to ensure everything
+> works. For example, the author of this handbook had to add the following lines to
+> his `.zshrc`:
+>
+> ```bash
+> # Make tmux play nicely with direnv
+> alias tmux='direnv exec / tmux'
+> 
+> # Need to reload direnv in tmux for some reason to ensure
+> # correct environment variables. Particularly for pyenv.
+> if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+>     export DIRENV_LOG_FORMAT= # Don't print this reload or the Powerlevel10k prompt will freak out.
+>     direnv reload
+> fi
+> ```
+
 ## Windows
 Windows is a trickier platform for Python development. Because many packages are
 only available on Unix-like platforms (macOS or Linux), and because the Raspberry
@@ -138,5 +155,5 @@ Homebrew.
 
 ## Text Editor
 To actually write code, you will need a text editor or an IDE. This is the subject of a
-long running programming flame war, but [VS Code](https://code.visualstudio.com/) and
+long-running programming flame war, but [VS Code](https://code.visualstudio.com/) and
 [PyCharm](https://www.jetbrains.com/pycharm/) are good choices.

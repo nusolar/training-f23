@@ -25,7 +25,7 @@ sidebar on the left).
 > find references to `Uint8`, `Uint16`, etc. These types signify that the
 > bit pattern in the data field should be parsed as an unsigned (i.e. nonnegative)
 > integer, with bit-widths of 32, 8, 16, etc. Unsigned integers are not too hard
-> to parse by hand; it's analagous to the discussion in
+> to parse by hand; it's analogous to the discussion in
 > [Section 3.1](../step-1/representing-data.md).
 >
 > You will also see messages where variables are given the type `float` (explicitly in

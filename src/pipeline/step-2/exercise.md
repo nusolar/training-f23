@@ -14,7 +14,7 @@ have caused it.
 [This data file](../../misc/mppt_data.txt) contains CAN frames sent by an MPPT on
 it's own CAN network. Frames in this file appear in a `[Frame ID] [Data]` text
 format, separated by newlines. Frame IDs and data are given in hex, although the
-leading "0x" is ommited.
+leading "0x" is omitted.
 
 Your job is to use the MPPT datasheet to construct a Python program that processes
 this file into something human-readable.

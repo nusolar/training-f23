@@ -19,7 +19,7 @@ the *raison d'être* of the Software team; our job is fundamentally based on
 processing this traffic.
 2. This circuit follows the Controller Area Network (CAN bus) standard, which is
 a protocol commonly used in automobiles. The protocol defines certain electrical
-properties (e.g. the charactereistic impedance of the transmission line) that,
+properties (e.g. the characteristic impedance of the transmission line) that,
 when met, allow devices on the network to communicate with minimal errors and
 noise. Again, this is largely Electrical's domain, but what's important for
 Software is the format of messages sent on this line. Before we get into that

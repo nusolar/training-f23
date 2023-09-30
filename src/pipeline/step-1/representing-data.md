@@ -20,7 +20,7 @@ it is also true that:[^1]
 
 Working in a base-2 (or "binary") representation, where every digit must be
 either 0 or 1, we can see that 2023 can be written as 11111100111. To avoid
-confusion between bases, we typically prepend the prefix "0b" to numbers writen
+confusion between bases, we typically prepend the prefix "0b" to numbers written
 in binary. And so, 2023 = 0b11111100111.
 
 Binary gives us a way to "encode" signals sent on wires into something more
@@ -34,7 +34,7 @@ raw data[^2].
 > term *bit* to mean "<b>b</b>inary dig<b>it</b>". The number 0b10101011 has 8 bits.
 >
 > Binary numbers can grow quite long, and so *bytes* (where 1 byte = 8 bits) are more
-> commmonly used as a unit when speaking of binary data.
+> commonly used as a unit when speaking of binary data.
 
 
 ## Hexadecimal
