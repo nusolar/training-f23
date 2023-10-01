@@ -366,7 +366,7 @@ network are called CAN frames.</p>
 <br/> <br/>
 <div style="text-align: center"><i>A simplified view of a CAN bus frame</i></div>
 <p>As shown above, many of this bits in a frame are responsible for ensuring reliable
-and orderly transmission on the line (e.g. the 16 bits for the cylic redundancy check).
+and orderly transmission on the line (e.g. the 16 bits for the cyclic redundancy check).
 These details are largely unimportant for Software. For our purposes, a CAN frame is
 composed of two parts: the frame ID and the data.</p>
 <ul>
@@ -627,7 +627,7 @@ fi
 <h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
 <p>Windows is a trickier platform for Python development. Because many packages are
 only available on Unix-like platforms (macOS or Linux), and because the Raspberry
-Pi runs Linux anyway, it's best for consistency to install the Windows Subsytem
+Pi runs Linux anyway, it's best for consistency to install the Windows Subsystem
 for Linux (WSL). To install WSL, follow <a href="https://learn.microsoft.com/en-us/windows/wsl/setup/environment">Microsoft's instructions for setting up
 a development environment</a>
 (follow up through the &quot;Update and upgrade packages&quot; section; the following sections
