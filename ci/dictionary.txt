@@ -8,11 +8,13 @@ FFFFFF
 FGSP
 Grafana
 Grafana's
+GUIs
 Homebrew
 JSON
 MPPT
 MPPTs
 Mosfet
+OpenSSH
 PiCAN
 Postgres
 Powerlevel

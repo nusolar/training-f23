@@ -25,7 +25,7 @@
     - [Exercise - Parsing from a distance]()
 
 # Tools
-- [The command line]()
+- [The command line](tools/command-line.md)
 - [Git and GitHub]()
 
 # The Telemetry System
