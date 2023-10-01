@@ -143,7 +143,7 @@ $ echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 ## Windows
 Windows is a trickier platform for Python development. Because many packages are
 only available on Unix-like platforms (macOS or Linux), and because the Raspberry
-Pi runs Linux anyway, it's best for consistency to install the Windows Subsytem
+Pi runs Linux anyway, it's best for consistency to install the Windows Subsystem
 for Linux (WSL). To install WSL, follow [Microsoft's instructions for setting up
 a development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment)
 (follow up through the "Update and upgrade packages" section; the following sections

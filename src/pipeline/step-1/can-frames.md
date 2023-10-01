@@ -13,7 +13,7 @@ network are called CAN frames.
 <div style="text-align: center"><i>A simplified view of a CAN bus frame</i></div>
 
 As shown above, many of this bits in a frame are responsible for ensuring reliable
-and orderly transmission on the line (e.g. the 16 bits for the cylic redundancy check).
+and orderly transmission on the line (e.g. the 16 bits for the cyclic redundancy check).
 These details are largely unimportant for Software. For our purposes, a CAN frame is
 composed of two parts: the frame ID and the data.
 
