@@ -28,6 +28,7 @@ XBee
 XCode
 approachability
 backend
+binascii
 boolean
 booleans
 canusb
@@ -37,6 +38,7 @@ darwin
 datasheet
 datasheets
 direnv
+divmod
 elif
 endian
 eval
@@ -52,17 +54,21 @@ mppt
 nonnegative
 overcurrent
 overvoltage
+pathlib
 pican
 pipenv
 prepend
 pyenv
 raison
 runtime
+struct
 tmux
 undervoltage
+unhexlify
 venv
 virtualenv
 wavesculptor
+whitespace
 xbee
 xcode
 zsh
