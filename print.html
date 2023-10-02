@@ -770,13 +770,118 @@ format, separated by newlines. Frame IDs and data are given in hex, although the
 leading &quot;0x&quot; is omitted.</p>
 <p>Your job is to use the MPPT datasheet to construct a Python program that processes
 this file into something human-readable.</p>
+<hr />
 <details>
-<summary>Hint</summary>
+<summary><b>Hint</b></summary>
 <p>You may find the
 <a href="https://docs.python.org/3/library/binascii.html#binascii.unhexlify">binascii.unhexlify</a>
 and <a href="https://docs.python.org/3/library/struct.html#struct.unpack">struct.unpack</a>
 functions helpful in converting from a hex string to an integer or float.</p>
 </details>
+<hr />
+<details>
+<summary><b>Solution</b></summary>
+<p>There are many possible ways to write the code to solve this exercise, so
+you're not expected to have written code that looks the same as this.
+This is only one of the possible solutions and is here as a reference.</p>
+<pre><code class="language-python"># `pathlib` is a standard library module for working with paths. It's not at all
+# necessary for this exercise, but it tends to be my go-to module when I find
+# myself working with file paths.
+from pathlib import Path 
+
+# We're going to use the `unhexlify` function to convert hex strings into the
+# actual bytes they represent.
+from binascii import unhexlify
+
+# We'll also use the `unpack` function to decode `float`s and `int`s from
+# raw bytes.
+from struct import unpack
+
+def decode_mppt_data(offset, data):
+    if offset == 0:
+        # Input measurements
+        return {
+            &quot;Input Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Input Current (A)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 1:
+        # Output measurements
+        return {
+            &quot;Output Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Output Current (A)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 2:
+        # Temperature
+        return {
+            &quot;Mosfet Temperature (℃ )&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Controller Temperature (℃ )&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 3:
+        # Auxiliary power supply
+        return {
+            &quot;12V (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;3V (V)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 4:
+        # Limits
+        return {
+            &quot;Max. Output Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Max. Input Current (C)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 5:
+        # Status
+        return {
+            &quot;CAN RX error counter&quot;   : unpack(&quot;&lt;B&quot;, data[:1])[0],
+            &quot;CAN TX error counter&quot;   : unpack(&quot;&lt;B&quot;, data[1:2])[0],
+            &quot;CAN TX overflow counter&quot;: unpack(&quot;&lt;B&quot;, data[2:3])[0],
+            &quot;Error flags&quot;            : unpack(&quot;&lt;B&quot;, data[3:4])[0],
+            &quot;Limit flags&quot;            : unpack(&quot;&lt;B&quot;, data[4:5])[0],
+            &quot;Mode&quot;                   : unpack(&quot;&lt;B&quot;, data[5:6])[0],
+            &quot;Test counter&quot;           : unpack(&quot;&lt;B&quot;, data[7:])[0],
+        }
+    elif offset == 6:
+        # Power connector
+        return {
+            &quot;Output Voltage (Battery side of fuse) (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Power connector Temperature (℃ )&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    else:
+        # Unknown message, throw an error to the caller.
+        raise Exception(f&quot;No message matches offset 0x{offset:x}&quot;)
+
+def decode_data(base_address, offset, data):
+    if base_address == 0x600:
+        # If the base address belongs to a known MPPT, decode the data using
+        # a MPPT-specific helper function, and return the decoded message.
+        return { &quot;sender&quot;: base_address, &quot;message&quot;: decode_mppt_data(offset, data) } 
+    else:
+        # Otherwise, the message doesn't match any known device. Throw an error
+        # to the caller.
+        raise Exception(f&quot;No device matches base address 0x{base_address:x}&quot;)
+
+with Path(&quot;mppt_data.txt&quot;).open(&quot;r&quot;) as f:
+    for line in f:
+        # Take the line, remove any trailing whitespace, and then split across
+        # the space dividing the frame id from the data.
+        left, right = line.strip().split(&quot; &quot;)
+
+        # Convert the frame id hex string into an actual number.
+        frame_id = int(left, 16)
+
+        # Convert the data hex string into bytes.
+        data = unhexlify(right)
+
+        # Decompose the frame id into a base address and offset.
+        base_address, offset = divmod(frame_id, 16)
+        base_address *= 16
+
+        # Decode the message and print it.
+        print(decode_data(base_address, offset, data))
+</code></pre>
+<p>The result of running this program on the MPPT data provided above can
+be found in <a href="pipeline/step-2/../../misc/mppt_data_decoded.txt">this output file</a>.</p>
+</details>
+<hr />
 <h2 id="part-2---chaos-on-the-can-network"><a class="header" href="#part-2---chaos-on-the-can-network">Part 2 - Chaos on the CAN network</a></h2>
 <p>This scenario is under development 👷🚧.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-command-line"><a class="header" href="#the-command-line">The command line</a></h1>
