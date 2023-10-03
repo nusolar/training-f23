@@ -41,11 +41,6 @@ you're not expected to have written code that looks the same as this.
 This is only one of the possible solutions and is here as a reference.
 
 ```python
-# `pathlib` is a standard library module for working with paths. It's not at all
-# necessary for this exercise, but it tends to be my go-to module when I find
-# myself working with file paths.
-from pathlib import Path 
-
 # We're going to use the `unhexlify` function to convert hex strings into the
 # actual bytes they represent.
 from binascii import unhexlify
@@ -70,8 +65,8 @@ def decode_mppt_data(offset, data):
     elif offset == 2:
         # Temperature
         return {
-            "Mosfet Temperature (℃ )"    : unpack("<f", data[:4])[0],
-            "Controller Temperature (℃ )": unpack("<f", data[4:])[0],
+            "Mosfet Temperature (deg. Celsius)"    : unpack("<f", data[:4])[0],
+            "Controller Temperature (deg. Celsius)": unpack("<f", data[4:])[0],
         }
     elif offset == 3:
         # Auxiliary power supply
@@ -100,7 +95,7 @@ def decode_mppt_data(offset, data):
         # Power connector
         return {
             "Output Voltage (Battery side of fuse) (V)": unpack("<f", data[:4])[0],
-            "Power connector Temperature (℃ )" : unpack("<f", data[4:])[0],
+            "Power connector Temperature (deg. Celsius)" : unpack("<f", data[4:])[0],
         }
     else:
         # Unknown message, throw an error to the caller.
@@ -116,13 +111,15 @@ def decode_data(base_address, offset, data):
         # to the caller.
         raise Exception(f"No device matches base address 0x{base_address:x}")
 
-with Path("mppt_data.txt").open("r") as f:
+with open("mppt_data.txt", "r") as f:
     for line in f:
-        # Take the line, remove any trailing whitespace, and then split across
-        # the space dividing the frame id from the data.
+        # Take the line, remove any leading/trailing whitespace,
+        # and then split across the space dividing the frame id from the data.
         left, right = line.strip().split(" ")
 
         # Convert the frame id hex string into an actual number.
+        # Note that `int(left, 16)` is equivalent to
+        # `unpack("<B", unhexlify(left))[0]`.
         frame_id = int(left, 16)
 
         # Convert the data hex string into bytes.

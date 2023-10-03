@@ -11,7 +11,7 @@ The Python interpreter can be accessed interactively in the terminal:
 
 ```bash
 $ python
-Python 3.11.4 (main, Jul 24 2023, 12:13:16) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
+Python 3.12.0 (main, Jul 24 2023, 12:13:16) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>> print("Hello, world!")
 Hello, world!

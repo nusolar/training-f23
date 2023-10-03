@@ -88,16 +88,16 @@ $ pyenv versions
 ```
 
 You should see that only the system python is installed. To install the latest version
-of Python (3.11.5 currently), run:
+of Python (3.12.0 currently), run:
 
 ```bash
-$ pyenv install 3.11.5
+$ pyenv install 3.12.0
 ```
 
 Then, you may want to set this version to be the global default:
 
 ```bash
-$ pyenv global 3.11.5
+$ pyenv global 3.12.0
 ```
 
 ### Install direnv
@@ -116,10 +116,10 @@ when you enter/exit the project folder. Install it with Homebrew:
 $ brew install direnv
 ```
 
-To work properly, direnv need to be able to hook into the shell. Follow the
+To work properly, direnv needs to be able to hook into the shell. Follow the
 [setup instructions](https://direnv.net/docs/hook.html) to finish the installation.
 For example, if you are using zsh, you would run:
-```zsh
+```bash
 $ echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 ```
 
@@ -150,8 +150,8 @@ a development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/e
 are worth reading but not necessary right now).
 
 Once you have setup WSL and are in a Linux command line, follow the previous instructions
-for installing pyenv and direnv, but use your system package (`apt` if on Ubuntu) instead of
-Homebrew.
+for installing pyenv and direnv, but use your system package manager (`apt` if on Ubuntu)
+instead of Homebrew.
 
 ## Text Editor
 To actually write code, you will need a text editor or an IDE. This is the subject of a
