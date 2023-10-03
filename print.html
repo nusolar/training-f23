@@ -585,11 +585,11 @@ zsh, but possibly bash), run:</p>
 <pre><code class="language-bash">$ pyenv versions
 </code></pre>
 <p>You should see that only the system python is installed. To install the latest version
-of Python (3.11.5 currently), run:</p>
-<pre><code class="language-bash">$ pyenv install 3.11.5
+of Python (3.12.0 currently), run:</p>
+<pre><code class="language-bash">$ pyenv install 3.12.0
 </code></pre>
 <p>Then, you may want to set this version to be the global default:</p>
-<pre><code class="language-bash">$ pyenv global 3.11.5
+<pre><code class="language-bash">$ pyenv global 3.12.0
 </code></pre>
 <h3 id="install-direnv"><a class="header" href="#install-direnv">Install direnv</a></h3>
 <p>You should now have a new global installation of Python. At this point, you could
@@ -603,10 +603,10 @@ etc.), but the author recommends <a href="https://direnv.net/">direnv</a>.</p>
 when you enter/exit the project folder. Install it with Homebrew:</p>
 <pre><code class="language-bash">$ brew install direnv
 </code></pre>
-<p>To work properly, direnv need to be able to hook into the shell. Follow the
+<p>To work properly, direnv needs to be able to hook into the shell. Follow the
 <a href="https://direnv.net/docs/hook.html">setup instructions</a> to finish the installation.
 For example, if you are using zsh, you would run:</p>
-<pre><code class="language-zsh">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
+<pre><code class="language-bash">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
 </code></pre>
 <blockquote>
 <p>If you use <a href="https://github.com/tmux/tmux/wiki">tmux</a> as a terminal multiplexer,
@@ -633,8 +633,8 @@ a development environment</a>
 (follow up through the &quot;Update and upgrade packages&quot; section; the following sections
 are worth reading but not necessary right now).</p>
 <p>Once you have setup WSL and are in a Linux command line, follow the previous instructions
-for installing pyenv and direnv, but use your system package (<code>apt</code> if on Ubuntu) instead of
-Homebrew.</p>
+for installing pyenv and direnv, but use your system package manager (<code>apt</code> if on Ubuntu)
+instead of Homebrew.</p>
 <h2 id="text-editor"><a class="header" href="#text-editor">Text Editor</a></h2>
 <p>To actually write code, you will need a text editor or an IDE. This is the subject of a
 long-running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and
@@ -650,7 +650,7 @@ exercise in the following section.</p>
 <h2 id="running-python-code"><a class="header" href="#running-python-code">Running Python code</a></h2>
 <p>The Python interpreter can be accessed interactively in the terminal:</p>
 <pre><code class="language-bash">$ python
-Python 3.11.4 (main, Jul 24 2023, 12:13:16) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
+Python 3.12.0 (main, Jul 24 2023, 12:13:16) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 &gt;&gt;&gt; print(&quot;Hello, world!&quot;)
 Hello, world!
@@ -784,12 +784,7 @@ functions helpful in converting from a hex string to an integer or float.</p>
 <p>There are many possible ways to write the code to solve this exercise, so
 you're not expected to have written code that looks the same as this.
 This is only one of the possible solutions and is here as a reference.</p>
-<pre><code class="language-python"># `pathlib` is a standard library module for working with paths. It's not at all
-# necessary for this exercise, but it tends to be my go-to module when I find
-# myself working with file paths.
-from pathlib import Path 
-
-# We're going to use the `unhexlify` function to convert hex strings into the
+<pre><code class="language-python"># We're going to use the `unhexlify` function to convert hex strings into the
 # actual bytes they represent.
 from binascii import unhexlify
 
@@ -813,8 +808,8 @@ def decode_mppt_data(offset, data):
     elif offset == 2:
         # Temperature
         return {
-            &quot;Mosfet Temperature (℃ )&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
-            &quot;Controller Temperature (℃ )&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+            &quot;Mosfet Temperature (deg. Celsius)&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Controller Temperature (deg. Celsius)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
         }
     elif offset == 3:
         # Auxiliary power supply
@@ -843,7 +838,7 @@ def decode_mppt_data(offset, data):
         # Power connector
         return {
             &quot;Output Voltage (Battery side of fuse) (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
-            &quot;Power connector Temperature (℃ )&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+            &quot;Power connector Temperature (deg. Celsius)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
         }
     else:
         # Unknown message, throw an error to the caller.
@@ -859,13 +854,15 @@ def decode_data(base_address, offset, data):
         # to the caller.
         raise Exception(f&quot;No device matches base address 0x{base_address:x}&quot;)
 
-with Path(&quot;mppt_data.txt&quot;).open(&quot;r&quot;) as f:
+with open(&quot;mppt_data.txt&quot;, &quot;r&quot;) as f:
     for line in f:
-        # Take the line, remove any trailing whitespace, and then split across
-        # the space dividing the frame id from the data.
+        # Take the line, remove any leading/trailing whitespace,
+        # and then split across the space dividing the frame id from the data.
         left, right = line.strip().split(&quot; &quot;)
 
         # Convert the frame id hex string into an actual number.
+        # Note that `int(left, 16)` is equivalent to
+        # `unpack(&quot;&lt;B&quot;, unhexlify(left))[0]`.
         frame_id = int(left, 16)
 
         # Convert the data hex string into bytes.

@@ -230,11 +230,11 @@ zsh, but possibly bash), run:</p>
 <pre><code class="language-bash">$ pyenv versions
 </code></pre>
 <p>You should see that only the system python is installed. To install the latest version
-of Python (3.11.5 currently), run:</p>
-<pre><code class="language-bash">$ pyenv install 3.11.5
+of Python (3.12.0 currently), run:</p>
+<pre><code class="language-bash">$ pyenv install 3.12.0
 </code></pre>
 <p>Then, you may want to set this version to be the global default:</p>
-<pre><code class="language-bash">$ pyenv global 3.11.5
+<pre><code class="language-bash">$ pyenv global 3.12.0
 </code></pre>
 <h3 id="install-direnv"><a class="header" href="#install-direnv">Install direnv</a></h3>
 <p>You should now have a new global installation of Python. At this point, you could
@@ -248,10 +248,10 @@ etc.), but the author recommends <a href="https://direnv.net/">direnv</a>.</p>
 when you enter/exit the project folder. Install it with Homebrew:</p>
 <pre><code class="language-bash">$ brew install direnv
 </code></pre>
-<p>To work properly, direnv need to be able to hook into the shell. Follow the
+<p>To work properly, direnv needs to be able to hook into the shell. Follow the
 <a href="https://direnv.net/docs/hook.html">setup instructions</a> to finish the installation.
 For example, if you are using zsh, you would run:</p>
-<pre><code class="language-zsh">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
+<pre><code class="language-bash">$ echo 'eval &quot;$(direnv hook zsh)&quot;' &gt;&gt; ~/.zshrc
 </code></pre>
 <blockquote>
 <p>If you use <a href="https://github.com/tmux/tmux/wiki">tmux</a> as a terminal multiplexer,
@@ -278,8 +278,8 @@ a development environment</a>
 (follow up through the &quot;Update and upgrade packages&quot; section; the following sections
 are worth reading but not necessary right now).</p>
 <p>Once you have setup WSL and are in a Linux command line, follow the previous instructions
-for installing pyenv and direnv, but use your system package (<code>apt</code> if on Ubuntu) instead of
-Homebrew.</p>
+for installing pyenv and direnv, but use your system package manager (<code>apt</code> if on Ubuntu)
+instead of Homebrew.</p>
 <h2 id="text-editor"><a class="header" href="#text-editor">Text Editor</a></h2>
 <p>To actually write code, you will need a text editor or an IDE. This is the subject of a
 long-running programming flame war, but <a href="https://code.visualstudio.com/">VS Code</a> and

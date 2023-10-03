@@ -196,12 +196,7 @@ functions helpful in converting from a hex string to an integer or float.</p>
 <p>There are many possible ways to write the code to solve this exercise, so
 you're not expected to have written code that looks the same as this.
 This is only one of the possible solutions and is here as a reference.</p>
-<pre><code class="language-python"># `pathlib` is a standard library module for working with paths. It's not at all
-# necessary for this exercise, but it tends to be my go-to module when I find
-# myself working with file paths.
-from pathlib import Path 
-
-# We're going to use the `unhexlify` function to convert hex strings into the
+<pre><code class="language-python"># We're going to use the `unhexlify` function to convert hex strings into the
 # actual bytes they represent.
 from binascii import unhexlify
 
@@ -225,8 +220,8 @@ def decode_mppt_data(offset, data):
     elif offset == 2:
         # Temperature
         return {
-            &quot;Mosfet Temperature (℃ )&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
-            &quot;Controller Temperature (℃ )&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+            &quot;Mosfet Temperature (deg. Celsius)&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Controller Temperature (deg. Celsius)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
         }
     elif offset == 3:
         # Auxiliary power supply
@@ -255,7 +250,7 @@ def decode_mppt_data(offset, data):
         # Power connector
         return {
             &quot;Output Voltage (Battery side of fuse) (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
-            &quot;Power connector Temperature (℃ )&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+            &quot;Power connector Temperature (deg. Celsius)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
         }
     else:
         # Unknown message, throw an error to the caller.
@@ -271,13 +266,15 @@ def decode_data(base_address, offset, data):
         # to the caller.
         raise Exception(f&quot;No device matches base address 0x{base_address:x}&quot;)
 
-with Path(&quot;mppt_data.txt&quot;).open(&quot;r&quot;) as f:
+with open(&quot;mppt_data.txt&quot;, &quot;r&quot;) as f:
     for line in f:
-        # Take the line, remove any trailing whitespace, and then split across
-        # the space dividing the frame id from the data.
+        # Take the line, remove any leading/trailing whitespace,
+        # and then split across the space dividing the frame id from the data.
         left, right = line.strip().split(&quot; &quot;)
 
         # Convert the frame id hex string into an actual number.
+        # Note that `int(left, 16)` is equivalent to
+        # `unpack(&quot;&lt;B&quot;, unhexlify(left))[0]`.
         frame_id = int(left, 16)
 
         # Convert the data hex string into bytes.
