@@ -1,4 +1,5 @@
 personal_ws-1.1 en 0 utf-8
+Bool
 CANUSB
 Digi
 Electrical's
@@ -19,6 +20,8 @@ PiCAN
 Postgres
 Powerlevel
 Prix
+Prohelion
+Prohelion's
 README
 REPL
 Sorensen
@@ -60,6 +63,7 @@ pipenv
 prepend
 pyenv
 raison
+regen
 runtime
 struct
 tmux

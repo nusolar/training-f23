@@ -40,5 +40,6 @@
 - [Raspberry Pi 4]()
 - [PiCAN 2]()
 - [Tritium WaveSculptor 22 Motor Controller](hardware/wavesculptor22.md)
+- [Prohelion EV Driver Controls](hardware/driver-controls.md)
 - [Elmar Solar MPPT](hardware/mppt.md)
 - [Digi XBee® SX 1-Watt 900 MHz RF]()
