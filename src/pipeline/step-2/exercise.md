@@ -5,19 +5,21 @@ Python parser to interpret real CAN frames sent by an isolated MPPT under
 idle operation. Values sent by this MPPT will be boring and predictable. In part
 two, you'll adapt your parser to handle CAN data from multiple connected devices.
 The data in part two will be generated to contain a mystery—at some point in this
-fabricated scenario, a fire will break out in the car. Your job is to analyze the
+fabricated scenario, a failure will occur in the car. Your job is to analyze the
 CAN traffic to determine when and where the failure first appeared, and what might
 have caused it.
 
 ## Part 1 - Isolated MPPT
 
-[This data file](../../misc/mppt_data.txt) contains CAN frames sent by an MPPT on
-it's own CAN network. Frames in this file appear in a `[Frame ID] [Data]` text
-format, separated by newlines. Frame IDs and data are given in hex, although the
-leading "0x" is omitted.
+[This data file](../../misc/mppt_data.txt) contains CAN frames sent by an MPPT
+(base address 0x600) on it's own CAN network. Frames in this file appear in a
+`[Frame ID] [Data]` text format, separated by newlines. Frame IDs and data are
+given in hex, although the leading "0x" is omitted.
 
 Your job is to use the MPPT datasheet to construct a Python program that processes
 this file into something human-readable.
+
+Remember that variables in CAN frames are stored in little-endian byte-order.
 
 ---
 
@@ -28,6 +30,124 @@ You may find the
 [binascii.unhexlify](https://docs.python.org/3/library/binascii.html#binascii.unhexlify)
 and [struct.unpack](https://docs.python.org/3/library/struct.html#struct.unpack)
 functions helpful in converting from a hex string to an integer or float.
+
+You can also use `int(some_hex_string, 16)` to parse a hex string to an integer. This
+can also be done with `unpack` and `unhexlify`, but `unhexlify` requires an even number
+of hex digits, so it can be a bit nicer to just use `int` directly for, say, the frame
+id, which is 3 hex digits.
+
+</details>
+
+---
+
+<details>
+<summary><b>Example</b></summary>
+
+The first line in the data file is `604 6666DA420000E040`. We can recognize this as a
+frame sent by the MPPT at base address 0x600 with an id offset of 0x4.
+
+The relevant section of the MPPT datasheet tells us that this is the "Limits" message,
+which contains the following variables.
+
+| Variable            | Byte | Type  | Unit   |
+| ------------------- | ---- | ----- | ------ |
+| Max. Output Voltage | 0-3  | FLOAT | Volt   |
+| Max. Input Current  | 4-7  | FLOAT | Ampere |
+
+Here's how we can parse this frame in Python.
+
+Let's start by storing the first frame in a variable and then splitting it
+into the frame id and the data:
+
+```python
+raw_frame = "604 6666DA420000E040"
+frame_id, data = raw_frame.split(" ")
+```
+
+The `frame_id, data = ...` syntax we used above is called "unpacking" or
+"destructing", and it is a clean way of breaking down a list (or any iterable)
+into multiple variables. In this case, `raw_frame.split(" ")` returned a list
+of 2 strings, the first of which we assigned to `frame_id`, and the second to
+`data`. It would have been equivalent to write:
+
+```python
+split = raw_frame.split(" ")
+frame_id = split[0]
+data = split[1]
+```
+
+At this point, both the `frame_id` and `data` variable are strings (text).
+Because in general we need to examine the offset of the frame id from the
+base address to determine the message type, we will need to convert `frame_id`
+to an integer. Similarly, we will need to end up converting portions of
+data into the types specified by the MPPT datasheet.
+
+To convert `frame_id` into an integer, we can use
+[Python's builtin `int`](https://docs.python.org/3/library/functions.html#int)
+function with two arguments to parse a string into an integer.
+
+```python
+frame_id = int(frame_id, 16)
+```
+
+We can then determine the offset from the base address programmatically:
+
+```python
+offset = frame_id - 0x600
+```
+
+Notice that Python allows you to write integers directly in hex using the `0x` prefix.
+
+Of course, in this case we already know that the offset is 4. But, in general, you'll
+need to determine the offset and then examine the data accordingly. Let's say we're
+choosing to do this in one big `if ... elif ... elif ... else` block.
+
+```python
+if offset == 0:
+    ... # handle offset 0
+elif offset == 1
+    ... # handle offset 1
+
+... # handle more offsets
+
+elif offset == 4
+    ... # handle offset 4
+
+... # handle more offsets
+```
+
+For the frame we're examining in this example, we know that we're going to end up inside
+the branch for `offset == 4`. The MPPT specs tell us that a broadcast message with offset
+4 contains two 32-bit floats in the data field. We can break the data into halves using
+Python's slicing syntax:
+
+```python
+first_half = data[:8]
+second_half = data[8:]
+```
+
+And then we can use `unhexlify` to convert each half from a string to the represented bytes:
+```python
+from binascii import unhexlify
+
+first_half = unhexlify(first_half)
+second_half = unhexlify(second_half)
+```
+
+Finally, we can use `unpack` to decode the bytes into little-endian floats (the `"<f"`
+given to `unpack` is a format specifier meaning little-endian 32-bit float; you can find
+more info in the docs for `unpack`).
+
+```python
+from struct import unpack
+
+max_output_voltage = unpack("<f", first_half)[0]
+max_input_current = unpack("<f", second_half)[0]
+```
+
+At this point, we've decoded the CAN frame! You can now print the decoded information to
+the screen, append it to a list, store it in a dictionary, or use whatever format you
+think works best.
 
 </details>
 
