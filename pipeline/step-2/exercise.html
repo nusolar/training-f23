@@ -378,7 +378,42 @@ be found in <a href="../../misc/mppt_data_decoded.txt">this output file</a>.</p>
 </details>
 <hr />
 <h2 id="part-2---chaos-on-the-can-network"><a class="header" href="#part-2---chaos-on-the-can-network">Part 2 - Chaos on the CAN network</a></h2>
-<p>This scenario is under development 👷🚧.</p>
+<p>In this exercise, you'll will be given a dump of CAN traffic from the following
+made-up scenario.</p>
+<blockquote>
+<p>Because the CAN data for this scenario has been fabricated, you shouldn't expect
+to see super-realistic and -consistent data reported across all the devices on
+the network. Rather, the tampered data has been made in a way to (hopefully) make
+localizing a fault easier.</p>
+</blockquote>
+<p>While working on an electrical line in SC7s, members of the Electrical team heard a pop
+from within the car. A few seconds later, the top-shell was lifted, and one of the devices
+attached to the CAN line was found damaged and unresponsive. The car was then immediately
+powered off.</p>
+<p>This incident occurred during winter, while the car was idle (not driving) and being worked-on
+in North Garage. The Electrical team reported the following CAN network configuration:</p>
+<ul>
+<li>MPPT at base address 0x600</li>
+<li>MPPT at base address 0x610</li>
+<li>MPPT at base address 0x620</li>
+<li>Motor controller at base address 0x400</li>
+<li>Driver controls at base address 0x500</li>
+<li>Battery management system</li>
+</ul>
+<p>They were also able to provide
+<a href="../../misc/can_traffic.txt">this log of CAN traffic in the minutes leading up to the incident</a>.</p>
+<p><strong>By analyzing this CAN traffic, can you figure out which device was damaged, what type of damage
+was sustained, and may have caused the failure?</strong></p>
+<h2 id="advice"><a class="header" href="#advice">Advice</a></h2>
+<p>Many of the messages in the given data file come from the battery management system (BMS), which
+works a little differently than the other devices you are familiar with. CAN frames broadcast
+from the BMS are programmable and do not necessarily follow the base address + offset pattern
+used by the other devices. For this exercise, <strong>the BMS is not relevant to electrical failure</strong>,
+which means you should ignore any messages from the BMS (i.e. the ones that are not from
+the MPPTs, motor controller, or driver controls).</p>
+<p>You may also not need to decode every frame from the other devices. It's possible to complete
+this exercise by identifying oddities in the raw frames, and limiting your focus only to those
+oddities.</p>
 
                     </main>
 
