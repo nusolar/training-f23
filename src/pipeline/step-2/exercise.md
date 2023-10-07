@@ -261,4 +261,44 @@ be found in [this output file](../../misc/mppt_data_decoded.txt).
 ---
 
 ## Part 2 - Chaos on the CAN network
-This scenario is under development 👷🚧.
+
+In this exercise, you'll will be given a dump of CAN traffic from the following
+made-up scenario.
+
+> Because the CAN data for this scenario has been fabricated, you shouldn't expect
+> to see super-realistic and -consistent data reported across all the devices on
+> the network. Rather, the tampered data has been made in a way to (hopefully) make
+> localizing a fault easier.
+
+While working on an electrical line in SC7s, members of the Electrical team heard a pop
+from within the car. A few seconds later, the top-shell was lifted, and one of the devices
+attached to the CAN line was found damaged and unresponsive. The car was then immediately
+powered off.
+
+This incident occurred during winter, while the car was idle (not driving) and being worked-on
+in North Garage. The Electrical team reported the following CAN network configuration:
+* MPPT at base address 0x600
+* MPPT at base address 0x610
+* MPPT at base address 0x620
+* Motor controller at base address 0x400
+* Driver controls at base address 0x500
+* Battery management system
+
+They were also able to provide
+[this log of CAN traffic in the minutes leading up to the incident](../../misc/can_traffic.txt).
+
+__By analyzing this CAN traffic, can you figure out which device was damaged, what type of damage
+was sustained, and may have caused the failure?__
+
+## Advice
+
+Many of the messages in the given data file come from the battery management system (BMS), which
+works a little differently than the other devices you are familiar with. CAN frames broadcast
+from the BMS are programmable and do not necessarily follow the base address + offset pattern
+used by the other devices. For this exercise, __the BMS is not relevant to electrical failure__,
+which means you should ignore any messages from the BMS (i.e. the ones that are not from
+the MPPTs, motor controller, or driver controls).
+
+You may also not need to decode every frame from the other devices. It's possible to complete
+this exercise by identifying oddities in the raw frames, and limiting your focus only to those
+oddities.
