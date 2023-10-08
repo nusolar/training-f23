@@ -214,7 +214,7 @@ into the frame id and the data:</p>
 frame_id, data = raw_frame.split(&quot; &quot;)
 </code></pre>
 <p>The <code>frame_id, data = ...</code> syntax we used above is called &quot;unpacking&quot; or
-&quot;destructing&quot;, and it is a clean way of breaking down a list (or any iterable)
+&quot;destructuring&quot;, and it is a clean way of breaking down a list (or any iterable)
 into multiple variables. In this case, <code>raw_frame.split(&quot; &quot;)</code> returned a list
 of 2 strings, the first of which we assigned to <code>frame_id</code>, and the second to
 <code>data</code>. It would have been equivalent to write:</p>
@@ -264,6 +264,8 @@ second_half = data[8:]
 first_half = unhexlify(first_half)
 second_half = unhexlify(second_half)
 </code></pre>
+<p>Note that we could equivalently have chosen to <code>unhexlify</code> the whole message first, and then
+slice it into halves.</p>
 <p>Finally, we can use <code>unpack</code> to decode the bytes into little-endian floats (the <code>&quot;&lt;f&quot;</code>
 given to <code>unpack</code> is a format specifier meaning little-endian 32-bit float; you can find
 more info in the docs for <code>unpack</code>).</p>
@@ -359,8 +361,6 @@ with open(&quot;mppt_data.txt&quot;, &quot;r&quot;) as f:
         left, right = line.strip().split(&quot; &quot;)
 
         # Convert the frame id hex string into an actual number.
-        # Note that `int(left, 16)` is equivalent to
-        # `unpack(&quot;&lt;B&quot;, unhexlify(left))[0]`.
         frame_id = int(left, 16)
 
         # Convert the data hex string into bytes.
@@ -403,7 +403,7 @@ in North Garage. The Electrical team reported the following CAN network configur
 <p>They were also able to provide
 <a href="../../misc/can_traffic.txt">this log of CAN traffic in the minutes leading up to the incident</a>.</p>
 <p><strong>By analyzing this CAN traffic, can you figure out which device was damaged, what type of damage
-was sustained, and may have caused the failure?</strong></p>
+was sustained, and what may have caused the failure?</strong></p>
 <h2 id="advice"><a class="header" href="#advice">Advice</a></h2>
 <p>Many of the messages in the given data file come from the battery management system (BMS), which
 works a little differently than the other devices you are familiar with. CAN frames broadcast
@@ -414,6 +414,37 @@ the MPPTs, motor controller, or driver controls).</p>
 <p>You may also not need to decode every frame from the other devices. It's possible to complete
 this exercise by identifying oddities in the raw frames, and limiting your focus only to those
 oddities.</p>
+<hr />
+<details>
+<summary><b>Hint #1</b></summary>
+<p>We know that the &quot;pop&quot; was heard just a few seconds before the car was powered off (at which point
+the CAN traffic ends). So it's reasonable to expect the failure to appear very near to the end
+of the traffic log file.</p>
+<p>You also should try looking for CAN messages that stop being sent <em>before</em> the rest of the traffic
+ends, the idea being to identify the damaged device by seeing if it goes silent.</p>
+<p>You might also try looking for messages that only start appearing near the end of the log file.
+You may observe a &quot;reset&quot; message that one device sends when another stops responding.</p>
+<p>Note that you can make these observations by only looking at the frame IDs and not actually
+decoding any data. So this might be a good starting point.</p>
+</details>
+<hr />
+<details>
+<summary><b>Hint #2</b></summary>
+<p>The previous hint should let you identify which device has failed: it's the motor controller
+at base address 0x400. The last message sent by the motor controller occurs at line 42776,
+over 300 lines before the file. For comparison, all the other devices on the network have
+messages appearing at most 35 lines from the end of the file. You could also have identified
+the issue with the motor controller by observing the first appearance of the message with
+ID 0x503 at line 42888. This message is a &quot;reset&quot; message sent from the driver controls to
+the motor controller, indicating a problem with the motor controller.</p>
+<p>Now that you know which device has been damaged, it's time to figure out what happened.
+To do this, you need to decode some messages from the motor controller. Many of the messages
+have all zeros in their data—those probably aren't worth decoding. Also, remember that the
+car isn't driving in this scenario, so messages indicating motor and vehicle velocities likely
+aren't relevant either. For the remaining messages, try decoding, say, the last 10 instances of
+each. Are there any values that are changing rapidly?</p>
+</details>
+<hr />
 
                     </main>
 
