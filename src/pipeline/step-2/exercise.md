@@ -65,7 +65,7 @@ frame_id, data = raw_frame.split(" ")
 ```
 
 The `frame_id, data = ...` syntax we used above is called "unpacking" or
-"destructing", and it is a clean way of breaking down a list (or any iterable)
+"destructuring", and it is a clean way of breaking down a list (or any iterable)
 into multiple variables. In this case, `raw_frame.split(" ")` returned a list
 of 2 strings, the first of which we assigned to `frame_id`, and the second to
 `data`. It would have been equivalent to write:
@@ -133,6 +133,9 @@ from binascii import unhexlify
 first_half = unhexlify(first_half)
 second_half = unhexlify(second_half)
 ```
+
+Note that we could equivalently have chosen to `unhexlify` the whole message first, and then
+slice it into halves.
 
 Finally, we can use `unpack` to decode the bytes into little-endian floats (the `"<f"`
 given to `unpack` is a format specifier meaning little-endian 32-bit float; you can find
@@ -238,8 +241,6 @@ with open("mppt_data.txt", "r") as f:
         left, right = line.strip().split(" ")
 
         # Convert the frame id hex string into an actual number.
-        # Note that `int(left, 16)` is equivalent to
-        # `unpack("<B", unhexlify(left))[0]`.
         frame_id = int(left, 16)
 
         # Convert the data hex string into bytes.
@@ -288,7 +289,7 @@ They were also able to provide
 [this log of CAN traffic in the minutes leading up to the incident](../../misc/can_traffic.txt).
 
 __By analyzing this CAN traffic, can you figure out which device was damaged, what type of damage
-was sustained, and may have caused the failure?__
+was sustained, and what may have caused the failure?__
 
 ## Advice
 
@@ -302,3 +303,47 @@ the MPPTs, motor controller, or driver controls).
 You may also not need to decode every frame from the other devices. It's possible to complete
 this exercise by identifying oddities in the raw frames, and limiting your focus only to those
 oddities.
+
+---
+
+<details>
+<summary><b>Hint #1</b></summary>
+
+We know that the "pop" was heard just a few seconds before the car was powered off (at which point
+the CAN traffic ends). So it's reasonable to expect the failure to appear very near to the end
+of the traffic log file.
+
+You also should try looking for CAN messages that stop being sent *before* the rest of the traffic
+ends, the idea being to identify the damaged device by seeing if it goes silent.
+
+You might also try looking for messages that only start appearing near the end of the log file.
+You may observe a "reset" message that one device sends when another stops responding.
+
+Note that you can make these observations by only looking at the frame IDs and not actually
+decoding any data. So this might be a good starting point.
+
+</details>
+
+---
+
+<details>
+<summary><b>Hint #2</b></summary>
+
+The previous hint should let you identify which device has failed: it's the motor controller
+at base address 0x400. The last message sent by the motor controller occurs at line 42776,
+over 300 lines before the file. For comparison, all the other devices on the network have
+messages appearing at most 35 lines from the end of the file. You could also have identified
+the issue with the motor controller by observing the first appearance of the message with
+ID 0x503 at line 42888. This message is a "reset" message sent from the driver controls to
+the motor controller, indicating a problem with the motor controller.
+
+Now that you know which device has been damaged, it's time to figure out what happened.
+To do this, you need to decode some messages from the motor controller. Many of the messages
+have all zeros in their data—those probably aren't worth decoding. Also, remember that the
+car isn't driving in this scenario, so messages indicating motor and vehicle velocities likely
+aren't relevant either. For the remaining messages, try decoding, say, the last 10 instances of
+each. Are there any values that are changing rapidly?
+
+</details>
+
+---
