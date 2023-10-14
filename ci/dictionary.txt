@@ -1,6 +1,7 @@
 personal_ws-1.1 en 0 utf-8
 Bool
 CANUSB
+Dandrea
 Digi
 Electrical's
 Elmar
@@ -11,6 +12,7 @@ Grafana
 Grafana's
 GUIs
 Homebrew
+IDEs
 JSON
 MPPT
 MPPTs
@@ -29,6 +31,7 @@ Uint
 WaveSculptor
 XBee
 XCode
+VSCode
 approachability
 backend
 binascii
@@ -57,6 +60,7 @@ macOS
 mortem
 mppt
 nonnegative
+observability
 overcurrent
 overvoltage
 pathlib
@@ -68,6 +72,7 @@ pyenv
 raison
 regen
 runtime
+sqlite
 struct
 tmux
 undervoltage
