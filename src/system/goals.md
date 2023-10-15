@@ -43,13 +43,14 @@ for example).
 This project will likely coincide with the later parts of training and involve
 the whole Software team, as it's good hands-on experience.
 
-### *Postgres backend for base-station database* (⚠️ , 👥 1-3, 📅 2 weeks)
+### *Alternative backend for base-station database* (⚠️ , 👥 1-3, 📅 2 weeks)
 We currently use SQLite as the database of choice for telemetry data on the base-station.
 To make this work with Grafana (which does not support SQLite out of the box), we use
 the [Grafana SQLite Datasource](https://grafana.com/grafana/plugins/frser-sqlite-datasource/)
 plugin. However, we've discovered that the plugin does not seem to support M2 Macs, and
 so this project will require refactoring the relevant code to target Postgres
-(or a similar supported SQL database).
+(or a similar supported SQL database). This project can also explore non-relational
+databases like [InfluxDB](https://www.influxdata.com/) (a time-series database).
 
 ### *More space-efficient serialization in XBee communication* (⚠️ , 👥 1-3, 📅 2-4 weeks)
 The Xbee modems we use (see [Digi XBee® SX 1-Watt 900 MHz RF](../hardware/xbee.md)) are
@@ -127,6 +128,17 @@ XBee cellular chip, but we have not started using it yet. This project will
 involve working with a new piece of hardware to improve our system and will
 likely involve working with cloud environments.
 
+### *Collaborating with Electrical Team* (⭐️, 👥 1-2, 📅 TBD)
+The Electrical team plans on adding new connections to the pins on the Raspberry
+Pi, which will allow us to poll information from the headlights, horn, etc. We
+need one or two people to work in liaison with the Electrical team to oversee
+the addition of new hardware to our Pi.
+
+### *Collaborating with Business Team* (🌱, 👥 1-2, 📅 TBD)
+The Business team partially oversees NUSolar's public and internal websites.
+Both could use some improvements, and we would be interested in integrating
+our dashboard with the internal website.
+
 ### *Onboard GPS module with dashboard integration* (🌱, 👥 2-5, 📅 6-12 weeks)
 It would be nice to visualize the car's progress along the track on our dashboard.
 This project will oversee the addition of a new GPS module to the car, which will
@@ -140,7 +152,7 @@ perspective. While it would be a great addition to the dashboard, members workin
 on this project will need to first determine whether transmitting live video data
 if feasible with our hardware.
 
-### *Investigating the energy cost of the Python runtime* (🌱, 👥 1-2, 📅 4-12 weeks)
+### *Investigating the energy cost of the Raspberry Pi and Python runtime* (🌱, 👥 1-2, 📅 4-12 weeks)
 Energy consumption is not a factor often considered when writing software. For our system,
 however, being a battery hog is unacceptable, as all the power the onboard system uses
 ultimately comes from the solar cells that power the car. Those interested in other
@@ -148,7 +160,8 @@ programming languages might investigate the energy cost of running Python on the
 Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
 the Python runtime is unacceptably inefficient for our needs (this admittedly seems
 unlikely), the team could consider migrating a small part of the system to a different
-language.
+language. The team may also explore the benefits (and possibility) of using a
+microcontroller instead of the Raspberry Pi microprocessor.
 
 ### *Running an onboard REPL to aid debugging* (🌱, 👥 1-4, 📅 3-6 weeks)
 LISP was the first programming language to feature a REPL (Read, Eval, Print Loop).

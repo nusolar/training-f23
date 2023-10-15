@@ -17,6 +17,7 @@ JSON
 MPPT
 MPPTs
 Mosfet
+NUSolar
 OpenSSH
 PiCAN
 PyPI
@@ -61,6 +62,7 @@ invariants
 iterable
 jpeg
 macOS
+microcontroller
 mortem
 mosfet
 mppt
