@@ -181,6 +181,19 @@ devices:</p>
 <a href="https://xbplib.readthedocs.io/en/latest/">documentation for the XBee Python Library</a>.
 Which is available on PyPI as the <a href="https://pypi.org/project/digi-xbee/">digi-xbee</a>
 package.</p>
+<h2 id="port-identification"><a class="header" href="#port-identification">Port identification</a></h2>
+<p>To set up an XBee for sending or receiving, you'll need to identify the port that
+the XBee has attached to.</p>
+<h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
+<p>Run the following command in the terminal:</p>
+<pre><code class="language-bash">$ ls /dev/tty.*
+</code></pre>
+<p>You might see a few different ports listed (Bluetooth, for example). The one that
+contains &quot;usbserial&quot; is the XBee. For example, the port may look like <code>/dev/tty.usbserial-A21SPQED</code>.</p>
+<h3 id="windows"><a class="header" href="#windows">Windows</a></h3>
+<p>Open the command prompt and type <code>mode</code>. You should the XBee on one of the COM ports (<code>COM1</code>, <code>COM2</code>, etc.).</p>
+<p>If you are using WSL2, you'll have to set up USB passthrough and identify the XBee from within the Linux
+subsytem.</p>
 
                     </main>
 
