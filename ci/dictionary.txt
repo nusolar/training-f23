@@ -58,6 +58,7 @@ iterable
 jpeg
 macOS
 mortem
+mosfet
 mppt
 nonnegative
 observability

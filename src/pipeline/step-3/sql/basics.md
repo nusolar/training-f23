@@ -142,4 +142,4 @@ To see how to run SQL commands like these from Python, please follow
 Make sure to notice the usage of `con.commit()` after insertions.
 Database engines typically work with transactions; if you update a table (e.g.
 with `INSERT`), your changes will not actually make it to the database until
-you finalize the transactions (with `con.commit()`).
+you finalize the transaction (with `con.commit()`).

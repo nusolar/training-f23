@@ -47,7 +47,7 @@ This path says:
 Notice that folders on Unix-like systems are separated by `/`. On Windows, the
 path separator is `\\`. Also notice that files (typically) contain an extension
 that hints at the file type. The file extension for `report.pdf` is `.pdf`, meaning
-this file is like a PDF.
+this file is likely a PDF.
 
 Now that you understand Unix paths, let's discuss how to list files and move between folders.
 For the remainder of this section, we'll assume the following file hierarchy, although you
