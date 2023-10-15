@@ -20,9 +20,9 @@
         - [Setting up](pipeline/step-3/sql/setting-up.md)
         - [Basics](pipeline/step-3/sql/basics.md)
     - [Exercise - Persistence is key](pipeline/step-3/exercise.md)
-- [A packet in a network]()
-    - [A stream of bytes, revisited]()
-    - [Exercise - Parsing from a distance]()
+- [A packet in a network](pipeline/step-4/README.md)
+    - [A stream of bytes, revisited](pipeline/step-4/stream-of-bytes-revisited.md)
+    - [Exercise - Parsing from a distance](pipeline/step-4/exercise.md)
 
 # Tools
 - [The command line](tools/command-line.md)
@@ -42,4 +42,4 @@
 - [Tritium WaveSculptor 22 Motor Controller](hardware/wavesculptor22.md)
 - [Prohelion EV Driver Controls](hardware/driver-controls.md)
 - [Elmar Solar MPPT](hardware/mppt.md)
-- [Digi XBee® SX 1-Watt 900 MHz RF]()
+- [Digi XBee® SX 1-Watt 900 MHz RF](hardware/xbee.md)

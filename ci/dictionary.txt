@@ -19,6 +19,7 @@ MPPTs
 Mosfet
 OpenSSH
 PiCAN
+PyPI
 Postgres
 Powerlevel
 Prix
@@ -43,7 +44,10 @@ d'être
 darwin
 datasheet
 datasheets
+deserialize
+deserialized
 destructuring
+digi
 direnv
 divmod
 elif
