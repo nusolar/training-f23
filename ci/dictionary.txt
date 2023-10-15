@@ -29,6 +29,7 @@ Prohelion's
 README
 REPL
 Sorensen
+SPQED
 Uint
 WaveSculptor
 XBee
@@ -70,6 +71,7 @@ nonnegative
 observability
 overcurrent
 overvoltage
+passthrough
 pathlib
 pican
 pipenv
@@ -81,9 +83,11 @@ regen
 runtime
 sqlite
 struct
+subsytem
 tmux
 undervoltage
 unhexlify
+usbserial
 venv
 virtualenv
 wavesculptor

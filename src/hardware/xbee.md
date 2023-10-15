@@ -18,3 +18,24 @@ Information for controlling XBee with Python can be found in the
 [documentation for the XBee Python Library](https://xbplib.readthedocs.io/en/latest/).
 Which is available on PyPI as the [digi-xbee](https://pypi.org/project/digi-xbee/)
 package.
+
+## Port identification
+
+To set up an XBee for sending or receiving, you'll need to identify the port that
+the XBee has attached to.
+
+### macOS
+Run the following command in the terminal:
+
+```bash
+$ ls /dev/tty.*
+```
+
+You might see a few different ports listed (Bluetooth, for example). The one that
+contains "usbserial" is the XBee. For example, the port may look like `/dev/tty.usbserial-A21SPQED`.
+
+### Windows
+Open the command prompt and type `mode`. You should the XBee on one of the COM ports (`COM1`, `COM2`, etc.).
+
+If you are using WSL2, you'll have to set up USB passthrough and identify the XBee from within the Linux
+subsytem.
