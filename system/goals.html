@@ -203,13 +203,14 @@ to collect real data traces from the car for other projects
 for example).</p>
 <p>This project will likely coincide with the later parts of training and involve
 the whole Software team, as it's good hands-on experience.</p>
-<h3 id="postgres-backend-for-base-station-database----1-3--2-weeks"><a class="header" href="#postgres-backend-for-base-station-database----1-3--2-weeks"><em>Postgres backend for base-station database</em> (⚠️ , 👥 1-3, 📅 2 weeks)</a></h3>
+<h3 id="alternative-backend-for-base-station-database----1-3--2-weeks"><a class="header" href="#alternative-backend-for-base-station-database----1-3--2-weeks"><em>Alternative backend for base-station database</em> (⚠️ , 👥 1-3, 📅 2 weeks)</a></h3>
 <p>We currently use SQLite as the database of choice for telemetry data on the base-station.
 To make this work with Grafana (which does not support SQLite out of the box), we use
 the <a href="https://grafana.com/grafana/plugins/frser-sqlite-datasource/">Grafana SQLite Datasource</a>
 plugin. However, we've discovered that the plugin does not seem to support M2 Macs, and
 so this project will require refactoring the relevant code to target Postgres
-(or a similar supported SQL database).</p>
+(or a similar supported SQL database). This project can also explore non-relational
+databases like <a href="https://www.influxdata.com/">InfluxDB</a> (a time-series database).</p>
 <h3 id="more-space-efficient-serialization-in-xbee-communication----1-3--2-4-weeks"><a class="header" href="#more-space-efficient-serialization-in-xbee-communication----1-3--2-4-weeks"><em>More space-efficient serialization in XBee communication</em> (⚠️ , 👥 1-3, 📅 2-4 weeks)</a></h3>
 <p>The Xbee modems we use (see <a href="../hardware/xbee.html">Digi XBee® SX 1-Watt 900 MHz RF</a>) are
 limited to sending a maximum of 256 bytes per packet. We are able to transfer larger
@@ -275,6 +276,15 @@ prone to losing contact when separated too far. Last year, we purchased an
 XBee cellular chip, but we have not started using it yet. This project will
 involve working with a new piece of hardware to improve our system and will
 likely involve working with cloud environments.</p>
+<h3 id="collaborating-with-electrical-team---1-2--tbd"><a class="header" href="#collaborating-with-electrical-team---1-2--tbd"><em>Collaborating with Electrical Team</em> (⭐️, 👥 1-2, 📅 TBD)</a></h3>
+<p>The Electrical team plans on adding new connections to the pins on the Raspberry
+Pi, which will allow us to poll information from the headlights, horn, etc. We
+need one or two people to work in liaison with the Electrical team to oversee
+the addition of new hardware to our Pi.</p>
+<h3 id="collaborating-with-business-team---1-2--tbd"><a class="header" href="#collaborating-with-business-team---1-2--tbd"><em>Collaborating with Business Team</em> (🌱, 👥 1-2, 📅 TBD)</a></h3>
+<p>The Business team partially oversees NUSolar's public and internal websites.
+Both could use some improvements, and we would be interested in integrating
+our dashboard with the internal website.</p>
 <h3 id="onboard-gps-module-with-dashboard-integration---2-5--6-12-weeks"><a class="header" href="#onboard-gps-module-with-dashboard-integration---2-5--6-12-weeks"><em>Onboard GPS module with dashboard integration</em> (🌱, 👥 2-5, 📅 6-12 weeks)</a></h3>
 <p>It would be nice to visualize the car's progress along the track on our dashboard.
 This project will oversee the addition of a new GPS module to the car, which will
@@ -286,7 +296,7 @@ the drivers perspective in the car. F1 broadcasts, for example, tend to show thi
 perspective. While it would be a great addition to the dashboard, members working
 on this project will need to first determine whether transmitting live video data
 if feasible with our hardware.</p>
-<h3 id="investigating-the-energy-cost-of-the-python-runtime---1-2--4-12-weeks"><a class="header" href="#investigating-the-energy-cost-of-the-python-runtime---1-2--4-12-weeks"><em>Investigating the energy cost of the Python runtime</em> (🌱, 👥 1-2, 📅 4-12 weeks)</a></h3>
+<h3 id="investigating-the-energy-cost-of-the-raspberry-pi-and-python-runtime---1-2--4-12-weeks"><a class="header" href="#investigating-the-energy-cost-of-the-raspberry-pi-and-python-runtime---1-2--4-12-weeks"><em>Investigating the energy cost of the Raspberry Pi and Python runtime</em> (🌱, 👥 1-2, 📅 4-12 weeks)</a></h3>
 <p>Energy consumption is not a factor often considered when writing software. For our system,
 however, being a battery hog is unacceptable, as all the power the onboard system uses
 ultimately comes from the solar cells that power the car. Those interested in other
@@ -294,7 +304,8 @@ programming languages might investigate the energy cost of running Python on the
 Raspberry Pi over a more lightweight language like C, Go, or Rust. If it turns out
 the Python runtime is unacceptably inefficient for our needs (this admittedly seems
 unlikely), the team could consider migrating a small part of the system to a different
-language.</p>
+language. The team may also explore the benefits (and possibility) of using a
+microcontroller instead of the Raspberry Pi microprocessor.</p>
 <h3 id="running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><a class="header" href="#running-an-onboard-repl-to-aid-debugging---1-4--3-6-weeks"><em>Running an onboard REPL to aid debugging</em> (🌱, 👥 1-4, 📅 3-6 weeks)</a></h3>
 <p>LISP was the first programming language to feature a REPL (Read, Eval, Print Loop).
 In the late 90s, a team at NASA deployed LISP code running with a REPL on a Deep
