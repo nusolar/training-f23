@@ -1215,7 +1215,7 @@ only selecting certain columns:</p>
 Make sure to notice the usage of <code>con.commit()</code> after insertions.
 Database engines typically work with transactions; if you update a table (e.g.
 with <code>INSERT</code>), your changes will not actually make it to the database until
-you finalize the transactions (with <code>con.commit()</code>).</p>
+you finalize the transaction (with <code>con.commit()</code>).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exercise---persistence-is-key"><a class="header" href="#exercise---persistence-is-key">Exercise - Persistence is key</a></h1>
 <p>For this exercise, use the CAN traffic parser you wrote in part 1 of
 <a href="pipeline/step-3/../step-2/exercise.html">section 4.2</a> to parse same
@@ -1233,8 +1233,160 @@ After all, we could simply write the decoded CAN frames into a regular
 text file. The answer is that using an SQL database enforces structure
 of the decoded messages and integrates with observability platforms like
 Grafana. Also, databases are <em>much</em> more efficient than regular files
-when the amount of data get very large.</p>
+when the amount of data gets very large.</p>
 </blockquote>
+<h2 id="advice-1"><a class="header" href="#advice-1">Advice</a></h2>
+<p>You might find it difficult to arrange all the data into just one table.
+Since each CAN frame only contains a fraction of all the variables reported
+by the MPPT, you would have to either leave some parts of each row empty,
+leave parts empty initially but update them as you go along, or gather
+the data until you have enough to insert a full row.</p>
+<p>The one big table solution is possible, but complicates the problem more than
+necessary. What if you tried creating a table for each CAN frame sent by the MPPT?</p>
+<hr />
+<details>
+<summary>Solution</summary>
+<p>This solution is adapted from the solution in Part 1 of section 4.2.</p>
+<pre><code class="language-python"># We're going to use the `unhexlify` function to convert hex strings into the
+# actual bytes they represent.
+from binascii import unhexlify
+
+# We'll also use the `unpack` function to decode `float`s and `int`s from
+# raw bytes.
+from struct import unpack
+
+# We'll store the decoded data into an SQLite database
+import sqlite3
+
+def decode_mppt_data(offset, data):
+    if offset == 0:
+        # Input measurements
+        return {
+            &quot;Input Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Input Current (A)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 1:
+        # Output measurements
+        return {
+            &quot;Output Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Output Current (A)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 2:
+        # Temperature
+        return {
+            &quot;Mosfet Temperature (deg. Celsius)&quot;    : unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Controller Temperature (deg. Celsius)&quot;: unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 3:
+        # Auxiliary power supply
+        return {
+            &quot;12V (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;3V (V)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 4:
+        # Limits
+        return {
+            &quot;Max. Output Voltage (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Max. Input Current (C)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    elif offset == 5:
+        # Status
+        return {
+            &quot;CAN RX error counter&quot;   : unpack(&quot;&lt;B&quot;, data[:1])[0],
+            &quot;CAN TX error counter&quot;   : unpack(&quot;&lt;B&quot;, data[1:2])[0],
+            &quot;CAN TX overflow counter&quot;: unpack(&quot;&lt;B&quot;, data[2:3])[0],
+            &quot;Error flags&quot;            : unpack(&quot;&lt;B&quot;, data[3:4])[0],
+            &quot;Limit flags&quot;            : unpack(&quot;&lt;B&quot;, data[4:5])[0],
+            &quot;Mode&quot;                   : unpack(&quot;&lt;B&quot;, data[5:6])[0],
+            &quot;Test counter&quot;           : unpack(&quot;&lt;B&quot;, data[7:])[0],
+        }
+    elif offset == 6:
+        # Power connector
+        return {
+            &quot;Output Voltage (Battery side of fuse) (V)&quot;: unpack(&quot;&lt;f&quot;, data[:4])[0],
+            &quot;Power connector Temperature (deg. Celsius)&quot; : unpack(&quot;&lt;f&quot;, data[4:])[0],
+        }
+    else:
+        # Unknown message, throw an error to the caller.
+        raise Exception(f&quot;No message matches offset 0x{offset:x}&quot;)
+
+def decode_data(base_address, offset, data):
+    if base_address == 0x600:
+        # If the base address belongs to a known MPPT, decode the data using
+        # a MPPT-specific helper function, and return the decoded message.
+        return {
+            &quot;sender&quot; : base_address,
+            &quot;offset&quot; : offset,
+            &quot;message&quot;: decode_mppt_data(offset, data)
+        } 
+    else:
+        # Otherwise, the message doesn't match any known device. Throw an error
+        # to the caller.
+        raise Exception(f&quot;No device matches base address 0x{base_address:x}&quot;)
+
+with open(&quot;mppt_data.txt&quot;, &quot;r&quot;) as f:
+    # Connect to the database, creating it if it doesn't already exist.
+    con = sqlite3.connect(&quot;decoded.db&quot;)
+
+    table_names = [
+        &quot;input_measurements&quot;,
+        &quot;output_measurements&quot;,
+        &quot;temperature&quot;,
+        &quot;auxiliary_power_supply&quot;,
+        &quot;limits&quot;,
+        &quot;status&quot;,
+        &quot;power_connector&quot;
+    ]
+
+    # Create the tables if they don't already exist. Note that this won't
+    # clear them if they already exist.
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[0]}(input_voltage REAL, input_current REAL);&quot;)
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[1]}(output_voltage REAL, output_current REAL);&quot;)
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[2]}(mosfet_temperature REAL, controller_temperature REAL);&quot;)
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[3]}(twelve_v REAL, three_v REAL);&quot;)
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[4]}(max_output_voltage REAL, max_input_current REAL);&quot;)
+    con.execute(f&quot;&quot;&quot;
+        CREATE TABLE IF NOT EXISTS {table_names[5]}(
+            rx_error_counter INTEGER,
+            tx_error_counter INTEGER,
+            tx_overflow_counter INTEGER,
+            error_flags INTEGER,
+            limit_flags INTEGER,
+            mode INTEGER,
+            test_counter INTEGER
+        );
+    &quot;&quot;&quot;)
+    con.execute(f&quot;CREATE TABLE IF NOT EXISTS {table_names[6]}(output_voltage REAL, power_connector_temperature REAL);&quot;)
+
+    for line in f:
+        # Take the line, remove any leading/trailing whitespace,
+        # and then split across the space dividing the frame id from the data.
+        left, right = line.strip().split(&quot; &quot;)
+
+        # Convert the frame id hex string into an actual number.
+        frame_id = int(left, 16)
+
+        # Convert the data hex string into bytes.
+        data = unhexlify(right)
+
+        # Decompose the frame id into a base address and offset.
+        base_address, offset = divmod(frame_id, 16)
+        base_address *= 16
+
+        # Decode the message
+        decoded = decode_data(base_address, offset, data)
+
+        # Find the right table for this message
+        table_name = table_names[decoded[&quot;offset&quot;]]
+
+        # Get the list of values that will be the row added to the table
+        values = decoded[&quot;message&quot;].values()
+        with con:
+            # Insert the row into the right table
+            con.execute(f&quot;INSERT INTO {table_name} VALUES ({','.join(map(str, values))})&quot;)
+</code></pre>
+</details>
+<hr />
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-command-line"><a class="header" href="#the-command-line">The command line</a></h1>
 <blockquote>
 <p>Commands given in this chapter follow the format <code>$ [command]</code> first
@@ -1275,7 +1427,7 @@ following path:</p>
 <p>Notice that folders on Unix-like systems are separated by <code>/</code>. On Windows, the
 path separator is <code>\\</code>. Also notice that files (typically) contain an extension
 that hints at the file type. The file extension for <code>report.pdf</code> is <code>.pdf</code>, meaning
-this file is like a PDF.</p>
+this file is likely a PDF.</p>
 <p>Now that you understand Unix paths, let's discuss how to list files and move between folders.
 For the remainder of this section, we'll assume the following file hierarchy, although you
 are encouraged to try listing files on your own computer:</p>
