@@ -30,6 +30,7 @@ README
 REPL
 Sorensen
 SPQED
+TKinter
 Uint
 WaveSculptor
 XBee

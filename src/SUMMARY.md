@@ -30,9 +30,9 @@
 
 # The Telemetry System
 - [Data flow](system/data-flow.md)
-- [Data visualization]()
-    - [Onboard Display]()
-    - [Base station dashboard]()
+- [Data visualization](system/data-visualization/README.md)
+    - [Onboard Display](system/data-visualization/onboard-display.md)
+    - [Base station dashboard](system/data-visualization/base-station-dashboard.md)
 - [Goals](system/goals.md)
 
 # Hardware Reference

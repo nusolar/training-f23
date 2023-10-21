@@ -6,8 +6,8 @@ in use.
 
 <br/>
 
-![NU Solar](../images/data-flow.png)
-<div style="text-align: center"><i>Overview of telemetry pipeline</i></div>
+![Overview of the telemetry pipeline](../images/data-flow.png)
+<div style="text-align: center"><i>Overview of the telemetry pipeline</i></div>
 
 The overview of data flow in the actual pipeline should be familiar to
 you, as it's largely similar to the training pipeline:
