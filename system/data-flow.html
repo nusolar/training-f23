@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Tritium WaveSculptor 22 Motor Controller - NU Solar Software Team Training - Fall 2023</title>
+        <title>Data flow - NU Solar Software Team Training - Fall 2023</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../purpose.html"><strong aria-hidden="true">1.</strong> Our purpose</a></li><li class="chapter-item expanded affix "><li class="part-title">A Telemetry Pipeline</li><li class="chapter-item expanded "><a href="../pipeline/step-0/index.html"><strong aria-hidden="true">2.</strong> Current in a wire</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/index.html"><strong aria-hidden="true">3.</strong> A stream of bytes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-1/representing-data.html"><strong aria-hidden="true">3.1.</strong> Representing data</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/can-frames.html"><strong aria-hidden="true">3.2.</strong> CAN frames</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/exercise.html"><strong aria-hidden="true">3.3.</strong> Exercise - Thinking like a computer</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-2/index.html"><strong aria-hidden="true">4.</strong> An object in memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-2/python/index.html"><strong aria-hidden="true">4.1.</strong> The Python programming language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-2/python/setting-up.html"><strong aria-hidden="true">4.1.1.</strong> Setting up</a></li><li class="chapter-item expanded "><a href="../pipeline/step-2/python/basics.html"><strong aria-hidden="true">4.1.2.</strong> Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-2/exercise.html"><strong aria-hidden="true">4.2.</strong> Exercise - An automated autopsy</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-3/index.html"><strong aria-hidden="true">5.</strong> A row in a table</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/index.html"><strong aria-hidden="true">5.1.</strong> SQL</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/setting-up.html"><strong aria-hidden="true">5.1.1.</strong> Setting up</a></li><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/basics.html"><strong aria-hidden="true">5.1.2.</strong> Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-3/exercise.html"><strong aria-hidden="true">5.2.</strong> Exercise - Persistence is key</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-4/index.html"><strong aria-hidden="true">6.</strong> A packet in a network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-4/stream-of-bytes-revisited.html"><strong aria-hidden="true">6.1.</strong> A stream of bytes, revisited</a></li><li class="chapter-item expanded "><a href="../pipeline/step-4/exercise.html"><strong aria-hidden="true">6.2.</strong> Exercise - Parsing from a distance</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Tools</li><li class="chapter-item expanded "><a href="../tools/command-line.html"><strong aria-hidden="true">7.</strong> The command line</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Git and GitHub</div></li><li class="chapter-item expanded affix "><li class="part-title">The Telemetry System</li><li class="chapter-item expanded "><a href="../system/data-flow.html"><strong aria-hidden="true">9.</strong> Data flow</a></li><li class="chapter-item expanded "><a href="../system/data-visualization/index.html"><strong aria-hidden="true">10.</strong> Data visualization</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../system/data-visualization/onboard-display.html"><strong aria-hidden="true">10.1.</strong> Onboard Display</a></li><li class="chapter-item expanded "><a href="../system/data-visualization/base-station-dashboard.html"><strong aria-hidden="true">10.2.</strong> Base station dashboard</a></li></ol></li><li class="chapter-item expanded "><a href="../system/goals.html"><strong aria-hidden="true">11.</strong> Goals</a></li><li class="chapter-item expanded affix "><li class="part-title">Hardware Reference</li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> CANUSB COM FD</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> Raspberry Pi 4</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> PiCAN 2</div></li><li class="chapter-item expanded "><a href="../hardware/wavesculptor22.html" class="active"><strong aria-hidden="true">15.</strong> Tritium WaveSculptor 22 Motor Controller</a></li><li class="chapter-item expanded "><a href="../hardware/driver-controls.html"><strong aria-hidden="true">16.</strong> Prohelion EV Driver Controls</a></li><li class="chapter-item expanded "><a href="../hardware/mppt.html"><strong aria-hidden="true">17.</strong> Elmar Solar MPPT</a></li><li class="chapter-item expanded "><a href="../hardware/xbee.html"><strong aria-hidden="true">18.</strong> Digi XBee® SX 1-Watt 900 MHz RF</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../purpose.html"><strong aria-hidden="true">1.</strong> Our purpose</a></li><li class="chapter-item expanded affix "><li class="part-title">A Telemetry Pipeline</li><li class="chapter-item expanded "><a href="../pipeline/step-0/index.html"><strong aria-hidden="true">2.</strong> Current in a wire</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/index.html"><strong aria-hidden="true">3.</strong> A stream of bytes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-1/representing-data.html"><strong aria-hidden="true">3.1.</strong> Representing data</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/can-frames.html"><strong aria-hidden="true">3.2.</strong> CAN frames</a></li><li class="chapter-item expanded "><a href="../pipeline/step-1/exercise.html"><strong aria-hidden="true">3.3.</strong> Exercise - Thinking like a computer</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-2/index.html"><strong aria-hidden="true">4.</strong> An object in memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-2/python/index.html"><strong aria-hidden="true">4.1.</strong> The Python programming language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-2/python/setting-up.html"><strong aria-hidden="true">4.1.1.</strong> Setting up</a></li><li class="chapter-item expanded "><a href="../pipeline/step-2/python/basics.html"><strong aria-hidden="true">4.1.2.</strong> Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-2/exercise.html"><strong aria-hidden="true">4.2.</strong> Exercise - An automated autopsy</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-3/index.html"><strong aria-hidden="true">5.</strong> A row in a table</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/index.html"><strong aria-hidden="true">5.1.</strong> SQL</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/setting-up.html"><strong aria-hidden="true">5.1.1.</strong> Setting up</a></li><li class="chapter-item expanded "><a href="../pipeline/step-3/sql/basics.html"><strong aria-hidden="true">5.1.2.</strong> Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-3/exercise.html"><strong aria-hidden="true">5.2.</strong> Exercise - Persistence is key</a></li></ol></li><li class="chapter-item expanded "><a href="../pipeline/step-4/index.html"><strong aria-hidden="true">6.</strong> A packet in a network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../pipeline/step-4/stream-of-bytes-revisited.html"><strong aria-hidden="true">6.1.</strong> A stream of bytes, revisited</a></li><li class="chapter-item expanded "><a href="../pipeline/step-4/exercise.html"><strong aria-hidden="true">6.2.</strong> Exercise - Parsing from a distance</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Tools</li><li class="chapter-item expanded "><a href="../tools/command-line.html"><strong aria-hidden="true">7.</strong> The command line</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Git and GitHub</div></li><li class="chapter-item expanded affix "><li class="part-title">The Telemetry System</li><li class="chapter-item expanded "><a href="../system/data-flow.html" class="active"><strong aria-hidden="true">9.</strong> Data flow</a></li><li class="chapter-item expanded "><a href="../system/data-visualization/index.html"><strong aria-hidden="true">10.</strong> Data visualization</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../system/data-visualization/onboard-display.html"><strong aria-hidden="true">10.1.</strong> Onboard Display</a></li><li class="chapter-item expanded "><a href="../system/data-visualization/base-station-dashboard.html"><strong aria-hidden="true">10.2.</strong> Base station dashboard</a></li></ol></li><li class="chapter-item expanded "><a href="../system/goals.html"><strong aria-hidden="true">11.</strong> Goals</a></li><li class="chapter-item expanded affix "><li class="part-title">Hardware Reference</li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> CANUSB COM FD</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> Raspberry Pi 4</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> PiCAN 2</div></li><li class="chapter-item expanded "><a href="../hardware/wavesculptor22.html"><strong aria-hidden="true">15.</strong> Tritium WaveSculptor 22 Motor Controller</a></li><li class="chapter-item expanded "><a href="../hardware/driver-controls.html"><strong aria-hidden="true">16.</strong> Prohelion EV Driver Controls</a></li><li class="chapter-item expanded "><a href="../hardware/mppt.html"><strong aria-hidden="true">17.</strong> Elmar Solar MPPT</a></li><li class="chapter-item expanded "><a href="../hardware/xbee.html"><strong aria-hidden="true">18.</strong> Digi XBee® SX 1-Watt 900 MHz RF</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,21 +166,68 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="tritium-wavesculptor-22-motor-controller"><a class="header" href="#tritium-wavesculptor-22-motor-controller">Tritium WaveSculptor 22 Motor Controller</a></h1>
-<p><img src="../images/wavesculptor22.png" alt="WaveSculptor 22" /></p>
-<p>The Tritium WaveSculptor 22 is the motor drive responsible for controlling
-the solar car's motors. The CAN frame specification can be found on pp.28-35
-of the <a href="../pdfs/WaveSculptor22.pdf">user's manual</a>.</p>
+                        <h1 id="data-flow"><a class="header" href="#data-flow">Data flow</a></h1>
+<p>Now that you've built your own simplified telemetry processing pipeline
+as part of training, it's time to introduce the actual system currently
+in use.</p>
+<br/>
+<p><img src="../images/data-flow.png" alt="Overview of the telemetry pipeline" /></p>
+<div style="text-align: center"><i>Overview of the telemetry pipeline</i></div>
+<p>The overview of data flow in the actual pipeline should be familiar to
+you, as it's largely similar to the training pipeline:</p>
+<ul>
+<li>CAN messages begin as bytes circulating on the CAN Bus.</li>
+<li>These messages are intercepted by a CAN converter on the Raspberry Pi,
+where they are processed into Python objects.</li>
+<li>This data is transmitted to a remote base station.</li>
+<li>The data is persisted in SQL databases and displayed visually as part
+of this process.</li>
+</ul>
+<p>However, there are some key differences between the training system and
+the real one:</p>
+<ol>
+<li>
+<p>We do not write the CAN decoding code ourselves, as you did in
+<a href="../pipeline/step-2/exercise.html">Section 4.2</a>. We used to, but we've
+since migrated to creating <a href="../pdfs/DBC_File_Format_Documentation.pdf">DBC files</a>
+(a file format for CAN network specification), which we use with
+<a href="https://cantools.readthedocs.io/en/latest/">cantools</a> to automatically
+parse messages off the CAN Bus.</p>
+</li>
+<li>
+<p>SQL databases are maintained both on the onboard Raspberry Pi and on
+the remote base-station, whereas in the training system you only made
+one database on one computer. Maintaining a database on the Raspberry Pi
+(when technically only the remote database is necessary) serves as a
+backup if connectivity is lost with the base-station.</p>
+</li>
+<li>
+<p>CAN frames are parsed <em>before</em> they are sent to the base-station. This
+is different than <a href="../pipeline/step-4/exercise.html">Section 6.2</a>, where you
+accepted unprocessed CAN data on the receiving end of wireless transmitters.</p>
+</li>
+<li>
+<p>CAN messages are not sent one at a time over the transmitters. Instead,
+the code running on the Raspberry Pi maintains running averages of signal
+values and sends them all at once every few seconds. We do this because
+CAN frames are sent far more often than necessary for our purposes, and
+we don't need to store and transmit every single message.</p>
+</li>
+<li>
+<p>Processed data is presented to the driver with a simple onboard display.
+On the base-station, we also display data, but with a more complex dashboard.</p>
+</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../system/goals.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../tools/command-line.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../hardware/driver-controls.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../system/data-visualization/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -190,11 +237,11 @@ of the <a href="../pdfs/WaveSculptor22.pdf">user's manual</a>.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../system/goals.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../tools/command-line.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../hardware/driver-controls.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../system/data-visualization/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
